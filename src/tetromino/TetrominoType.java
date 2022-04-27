@@ -4,6 +4,9 @@ import math.Vector2D;
 
 import java.util.Random;
 
+/**
+ * The type of tetromino that's available in the game.
+ */
 public enum TetrominoType {
     I,
     J,
@@ -13,6 +16,11 @@ public enum TetrominoType {
     T,
     Z;
 
+    /**
+     * Gets a random tetromino.
+     * @param position The position of the tetromino that's need in tetromino's constructor.
+     * @return A random tetromino.
+     */
     public static Tetromino getRandomTetromino(Vector2D position) {
         Random random = new Random();
 //        TetrominoType type = TetrominoType.values()[random.nextInt(TetrominoType.values().length)];

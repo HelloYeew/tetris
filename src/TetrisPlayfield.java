@@ -5,6 +5,9 @@ import tetromino.TetrominoType;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Playfield for player.
+ */
 public class TetrisPlayfield extends JPanel {
     /**
      * The size of one block in pixel

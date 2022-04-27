@@ -7,16 +7,33 @@ import java.awt.event.KeyEvent;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * Main class of the game.
+ */
 public class Game extends JFrame implements Observer {
-
+    /**
+     * Player 1's playfield
+     */
     private TetrisPlayfield playfieldPlayer1;
 
+    /**
+     * Player 2's playfield
+     */
     private TetrisPlayfield playfieldPlayer2;
 
+    /**
+     * Size of the playfield in blocks
+     */
     public Vector2D PLAYFIELD_SIZE = new Vector2D(10,20);
 
+    /**
+     * The game's observable for updating the game time
+     */
     private GameObservable observable;
 
+    /**
+     * Create a new game with necessary components
+     */
     public Game() {
         super("just a tetris");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,6 +59,9 @@ public class Game extends JFrame implements Observer {
         observable.addObserver(this);
     }
 
+    /**
+     * Class for handling key events from game window
+     */
     class PlayerController extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
@@ -74,6 +94,9 @@ public class Game extends JFrame implements Observer {
         repaint();
     }
 
+    /**
+     * Start the game
+     */
     public void start() {
         observable.start();
         setVisible(true);
