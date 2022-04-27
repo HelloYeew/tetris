@@ -50,6 +50,9 @@ public class Game extends JFrame implements Observer {
                 case KeyEvent.VK_RIGHT -> playfieldPlayer1.moveRight();
                 case KeyEvent.VK_A -> playfieldPlayer2.moveLeft();
                 case KeyEvent.VK_D -> playfieldPlayer2.moveRight();
+                // For debug purpose
+                case KeyEvent.VK_O -> playfieldPlayer1.generatePermanentRow();
+                case KeyEvent.VK_P -> playfieldPlayer2.generatePermanentRow();
             }
         }
     }

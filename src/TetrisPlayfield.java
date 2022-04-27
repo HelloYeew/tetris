@@ -173,4 +173,20 @@ public class TetrisPlayfield extends JPanel {
             }
         }
     }
+
+    /**
+     * Generate a permanent row of ghost block at the bottom of the playfield
+     */
+    public void generatePermanentRow() {
+        for (int y = size.y - 1; y >= 0; y--) {
+            if (blocks[0][y] == Color.DARK_GRAY) {
+                continue;
+            } else {
+                for (int x = 0; x < size.x; x++) {
+                    blocks[x][y] = Color.DARK_GRAY;
+                }
+                break;
+            }
+        }
+    }
 }

@@ -31,11 +31,11 @@ public class TetrominoI implements Tetromino {
     }
 
     /**
-     * Rotate the tetrmino
+     * Rotate the tetromino
      */
     @Override
     public void rotate() {
-
+        // TODO: Implement the state design pattern on this since we are not sure on how many states we will have
     }
 
     /**
