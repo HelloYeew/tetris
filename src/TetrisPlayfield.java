@@ -1,6 +1,7 @@
 import math.Vector2D;
-import tetromino.ITetromino;
+import tetromino.TetrominoI;
 import tetromino.Tetromino;
+import tetromino.TetrominoType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,16 +11,18 @@ public class TetrisPlayfield extends JPanel {
 
     public Vector2D size;
 
-    private TetrisPixel[][] blocks;
+    private Color[][] blocks;
 
     private Tetromino currentTetromino;
+
+    public Vector2D SPAWN_POSITION = new Vector2D(3,3);
 
     public TetrisPlayfield(Vector2D size) {
         this.size = size;
         setBackground(Color.BLACK);
         setPreferredSize(new Dimension(BLOCK_SIZE * size.x, BLOCK_SIZE * size.y));
-        blocks = new TetrisPixel[size.x][size.y];
-        currentTetromino = new ITetromino(new Vector2D(3, 0));
+        blocks = new Color[size.x][size.y];
+        getNewTetromino();
         convertTetrominoToPixel();
     }
 
@@ -36,14 +39,14 @@ public class TetrisPlayfield extends JPanel {
         paintGrid(g);
     }
 
-    private void paintBlock(Graphics g, TetrisPixel block, int x, int y) {
-        g.setColor(block.color);
+    private void paintBlock(Graphics g, Color color, int x, int y) {
+        g.setColor(color);
         g.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
     }
 
     private void convertTetrominoToPixel() {
         for (Vector2D position : currentTetromino.getPositions()) {
-            blocks[position.x][position.y] = new TetrisPixel(currentTetromino.getColor());
+            blocks[position.x][position.y] = currentTetromino.getColor();
         }
     }
 
@@ -57,15 +60,26 @@ public class TetrisPlayfield extends JPanel {
         convertTetrominoToPixel();
         repaint();
         for (Vector2D position : currentTetromino.getPositions()) {
-            // Check if it's on the bottom
+            // Check if there's other block below the tetromino that's not itself, unbind the current tetromino
+            if (position.y < size.y - 1) {
+                if (blocks[position.x][position.y + 1] != null && !currentTetromino.getPositions().contains(new Vector2D(position.x, position.y + 1))) {
+                    getNewTetromino();
+                }
+            }
+
+            // if it's the bottom of the playfield, create a new tetromino
             if (position.y == size.y - 1) {
-                currentTetromino = new ITetromino(new Vector2D(3, 0));
+                getNewTetromino();
             }
         }
     }
 
     private void updateTetromino() {
 
+    }
+
+    private void getNewTetromino() {
+        currentTetromino = TetrominoType.getRandomTetromino(SPAWN_POSITION);
     }
 
     private void paintGrid(Graphics g) {

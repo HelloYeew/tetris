@@ -8,12 +8,12 @@ import java.util.ArrayList;
 /**
  * Class representing an I Tetromino.
  */
-public class ITetromino implements Tetromino {
-    private Color color = Color.BLUE;
+public class TetrominoI implements Tetromino {
+    private Color color = Color.GREEN;
     private Vector2D origin;
     private ArrayList<Vector2D> positions;
 
-    public ITetromino(Vector2D origin) {
+    public TetrominoI(Vector2D origin) {
         this.origin = origin;
         generateBlock();
     }
