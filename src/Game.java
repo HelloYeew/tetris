@@ -2,6 +2,8 @@ import math.Vector2D;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -19,6 +21,7 @@ public class Game extends JFrame implements Observer {
         super("just a tetris");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(500, 500);
+        addKeyListener(new PlayerController());
 
         playfieldPlayer1 = new TetrisPlayfield(PLAYFIELD_SIZE);
         playfieldPlayer2 = new TetrisPlayfield(PLAYFIELD_SIZE);
@@ -37,6 +40,18 @@ public class Game extends JFrame implements Observer {
 
         observable = new GameObservable();
         observable.addObserver(this);
+    }
+
+    class PlayerController extends KeyAdapter {
+        @Override
+        public void keyPressed(KeyEvent e) {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_LEFT -> playfieldPlayer1.moveLeft();
+                case KeyEvent.VK_RIGHT -> playfieldPlayer1.moveRight();
+                case KeyEvent.VK_A -> playfieldPlayer2.moveLeft();
+                case KeyEvent.VK_D -> playfieldPlayer2.moveRight();
+            }
+        }
     }
 
     /**
