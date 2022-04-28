@@ -87,7 +87,7 @@ public class TetrisPlayfield extends JPanel {
 
     /**
      * Update the playfield and check collision.
-     *
+     * <br>
      * Normally this method is called by the main game loop.
      */
     public void update() {
@@ -121,10 +121,16 @@ public class TetrisPlayfield extends JPanel {
         }
     }
 
+    /**
+     * Set a new current tetromino by using random utilities in the tetromino type enum.
+     */
     private void createNewTetromino() {
         currentTetromino = TetrominoType.getRandomTetromino(SPAWN_POSITION);
     }
 
+    /**
+     * Remove the old positions of tetromino that's painted on the playfield.
+     */
     private void cleanCurrentTetrominoPositions() {
         for (Vector2D position : currentTetromino.getPositions()) {
             blocks[position.x][position.y] = null;
@@ -193,6 +199,13 @@ public class TetrisPlayfield extends JPanel {
         }
     }
 
+    // TODO: Drop control
+
+    /**
+     * Get the current tetromino that player is controlling
+     *
+     * @return the current tetromino that player is controlling
+     */
     public Tetromino getCurrentTetromino() {
         return currentTetromino;
     }

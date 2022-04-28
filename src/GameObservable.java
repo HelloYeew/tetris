@@ -68,12 +68,36 @@ public class GameObservable extends Observable {
         notifyObservers();
     }
 
+    /**
+     * Get running state.
+     * @return the running state.
+     */
     public Boolean getRunning() {
         return isRunning;
     }
 
+    /**
+     * Set running state.
+     * @param running the new running state.
+     */
+    public void setRunning(Boolean running) {
+        isRunning = running;
+    }
+
+    /**
+     * Get over state.
+     * @return the over state.
+     */
     public Boolean getOver() {
         return isOver;
+    }
+
+    /**
+     * Set over state.
+     * @param over the new over state.
+     */
+    public void setOver(Boolean over) {
+        isOver = over;
     }
 
     /**

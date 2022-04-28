@@ -1,16 +1,34 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * DebugWindow is a JFrame that displays all the information about the game for debugging purposes.
+ */
 public class DebugWindow extends JFrame {
-
+    /**
+     * Player 1 information text area.
+     */
     private JTextArea player1Info;
 
+    /**
+     * Player 2 information text area.
+     */
     private JTextArea player2Info;
 
+    /**
+     * Game's observable information text area.
+     */
     private JTextArea gameStatusInfo;
 
+    /**
+     * The Game object that this DebugWindow bind and is displaying information about.
+     */
     private Game game;
 
+    /**
+     * Constructor for DebugWindow.
+     * @param game The Game object that this DebugWindow bind and is displaying information about.
+     */
     public DebugWindow(Game game) {
         super("Debug Tools");
         this.game = game;
@@ -19,7 +37,7 @@ public class DebugWindow extends JFrame {
         JPanel player1Panel = new JPanel();
         player1Panel.add(new JLabel("Player 1"));
         player1Panel.add(player1Info = new JTextArea(""));
-        JButton player1AttackButton = new JButton("Add permenent row");
+        JButton player1AttackButton = new JButton("Add permenent row [O]");
         player1AttackButton.addActionListener(e -> game.playfieldPlayer1.generatePermanentRow());
         player1Panel.add(player1AttackButton);
         player1Panel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -27,7 +45,7 @@ public class DebugWindow extends JFrame {
         JPanel player2Panel = new JPanel();
         player2Panel.add(new JLabel("Player 2"));
         player2Panel.add(player2Info = new JTextArea(""));
-        JButton player2AttackButton = new JButton("Add permenent row");
+        JButton player2AttackButton = new JButton("Add permenent row [P]");
         player2AttackButton.addActionListener(e -> game.playfieldPlayer2.generatePermanentRow());
         player2Panel.add(player2AttackButton);
         player2Panel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -40,9 +58,14 @@ public class DebugWindow extends JFrame {
         add(player1Panel);
         add(player2Panel);
         add(gameStatusPanel);
-        setLocationRelativeTo(null);
     }
 
+    /**
+     * Update the elements of the DebugWindow.
+     * <br>
+     * Normally this method is called by the main game loop but it can also be called manually if this window needs to be updated
+     * but the game's running state is not running.
+     */
     public void update() {
         String player1Detail = "";
         player1Detail += "Size : " + game.playfieldPlayer1.SIZE + "\n";

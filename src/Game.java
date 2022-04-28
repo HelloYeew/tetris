@@ -47,6 +47,7 @@ public class Game extends JFrame implements Observer {
         addKeyListener(new PlayerController());
         setFocusable(true);
 
+        // Add topPanel include the debug window button and status text field
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new GridLayout(1, 2));
         JPanel debugPanel = new JPanel();
@@ -58,6 +59,9 @@ public class Game extends JFrame implements Observer {
         topPanel.add(debugPanel);
         debugButton.addActionListener(e -> {
             debugWindow.setVisible(true);
+            // After clicking on the button, the window's focus will focus on the button
+            // This is a workaround to make the window still focus on the window after clicking on the button
+            requestFocus();
         });
         if (!DEBUG) {
             debugPanel.setVisible(false);
@@ -67,8 +71,8 @@ public class Game extends JFrame implements Observer {
         topPanel.add(statusTextField);
         add(topPanel, BorderLayout.NORTH);
 
+        // Add mainPanel and its components at the center of the frame
         JPanel mainPanel = new JPanel();
-
         playfieldPlayer1 = new TetrisPlayfield(PLAYFIELD_SIZE);
         playfieldPlayer2 = new TetrisPlayfield(PLAYFIELD_SIZE);
         JPanel player1Panel = new JPanel();
@@ -81,15 +85,17 @@ public class Game extends JFrame implements Observer {
         player2Panel.add(playfieldPlayer2);
         mainPanel.add(player1Panel);
         mainPanel.add(player2Panel);
-
         add(mainPanel, BorderLayout.CENTER);
 
+        // Add GameObservable
         observable = new GameObservable();
         observable.addObserver(this);
 
         if (DEBUG) {
             debugWindow.setVisible(true);
         }
+        // Make the game window spawn at the center of the screen
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -103,6 +109,7 @@ public class Game extends JFrame implements Observer {
                 case KeyEvent.VK_RIGHT -> playfieldPlayer1.moveRight();
                 case KeyEvent.VK_A -> playfieldPlayer2.moveLeft();
                 case KeyEvent.VK_D -> playfieldPlayer2.moveRight();
+                case KeyEvent.VK_SPACE -> pause();
             }
 
             if (DEBUG) {
@@ -132,6 +139,10 @@ public class Game extends JFrame implements Observer {
         repaint();
     }
 
+    /**
+     * Get the instance of the observable that updating the game
+     * @return the instance of the observable that updating the game
+     */
     public GameObservable getObservable() {
         return observable;
     }
@@ -142,6 +153,23 @@ public class Game extends JFrame implements Observer {
     public void start() {
         observable.start();
         setVisible(true);
+    }
+
+    /**
+     * Set the game to pause state if the game is running, else continue the game
+     */
+    public void pause() {
+        if (observable.getRunning()) {
+            observable.setRunning(false);
+            statusTextField.setForeground(Color.RED);
+            statusTextField.setText("Game paused! Press SPACE to continue.");
+        } else {
+            observable.setRunning(true);
+            statusTextField.setText("");
+        }
+        // When the game is paused, the game thread is stopped update due to running status, so we need to manually update
+        // some element that need to be updated when game paused too
+        debugWindow.update();
     }
 
     public static void main(String[] args) {
