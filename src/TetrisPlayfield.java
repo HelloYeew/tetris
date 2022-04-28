@@ -17,7 +17,7 @@ public class TetrisPlayfield extends JPanel {
     /**
      * Size of playfield
      */
-    public Vector2D size;
+    public Vector2D SIZE;
 
     /**
      * Array that's store all blocks
@@ -39,11 +39,11 @@ public class TetrisPlayfield extends JPanel {
      * @param size the size of the playfield in Vector2D
      */
     public TetrisPlayfield(Vector2D size) {
-        this.size = size;
+        this.SIZE = size;
         setBackground(Color.BLACK);
         setPreferredSize(new Dimension(BLOCK_SIZE * size.x, BLOCK_SIZE * size.y));
         blocks = new Color[size.x][size.y];
-        getNewTetromino();
+        createNewTetromino();
         convertTetrominoToPixel();
     }
 
@@ -54,8 +54,8 @@ public class TetrisPlayfield extends JPanel {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        for (int x = 0; x < size.x; x++) {
-            for (int y = 0; y < size.y; y++) {
+        for (int x = 0; x < SIZE.x; x++) {
+            for (int y = 0; y < SIZE.y; y++) {
                 if (blocks[x][y] != null) {
                     paintBlock(g, blocks[x][y], x, y);
                 }
@@ -108,20 +108,20 @@ public class TetrisPlayfield extends JPanel {
     private void checkCollision() {
         for (Vector2D position : currentTetromino.getPositions()) {
             // Check if there's other block below the tetromino that's not itself, unbind the current tetromino
-            if (position.y < size.y - 1) {
+            if (position.y < SIZE.y - 1) {
                 if (blocks[position.x][position.y + 1] != null && !currentTetromino.getPositions().contains(new Vector2D(position.x, position.y + 1))) {
-                    getNewTetromino();
+                    createNewTetromino();
                 }
             }
 
             // if it's the bottom of the playfield, create a new tetromino
-            if (position.y == size.y - 1) {
-                getNewTetromino();
+            if (position.y == SIZE.y - 1) {
+                createNewTetromino();
             }
         }
     }
 
-    private void getNewTetromino() {
+    private void createNewTetromino() {
         currentTetromino = TetrominoType.getRandomTetromino(SPAWN_POSITION);
     }
 
@@ -138,7 +138,7 @@ public class TetrisPlayfield extends JPanel {
      * This method need to recall almost all the paint method due to the frame stuttering.
      */
     public void moveRight() {
-        if (currentTetromino.getPositions().stream().allMatch(position -> position.x < size.x - 1)) {
+        if (currentTetromino.getPositions().stream().allMatch(position -> position.x < SIZE.x - 1)) {
             cleanCurrentTetrominoPositions();
             for (Vector2D position : currentTetromino.getPositions()) {
                 position.x++;
@@ -170,8 +170,8 @@ public class TetrisPlayfield extends JPanel {
      */
     private void paintGrid(Graphics g) {
         g.setColor(Color.WHITE);
-        for (int x = 0; x < size.x; x++) {
-            for (int y = 0; y < size.y; y++) {
+        for (int x = 0; x < SIZE.x; x++) {
+            for (int y = 0; y < SIZE.y; y++) {
                 g.drawRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
             }
         }
@@ -181,15 +181,19 @@ public class TetrisPlayfield extends JPanel {
      * Generate a permanent row of ghost block at the bottom of the playfield
      */
     public void generatePermanentRow() {
-        for (int y = size.y - 1; y >= 0; y--) {
+        for (int y = SIZE.y - 1; y >= 0; y--) {
             if (blocks[0][y] == Color.DARK_GRAY) {
                 continue;
             } else {
-                for (int x = 0; x < size.x; x++) {
+                for (int x = 0; x < SIZE.x; x++) {
                     blocks[x][y] = Color.DARK_GRAY;
                 }
                 break;
             }
         }
+    }
+
+    public Tetromino getCurrentTetromino() {
+        return currentTetromino;
     }
 }

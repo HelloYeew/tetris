@@ -68,6 +68,14 @@ public class GameObservable extends Observable {
         notifyObservers();
     }
 
+    public Boolean getRunning() {
+        return isRunning;
+    }
+
+    public Boolean getOver() {
+        return isOver;
+    }
+
     /**
      * Get current tick.
      * @return the current tick.

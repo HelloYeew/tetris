@@ -14,22 +14,28 @@ public class Game extends JFrame implements Observer {
     /**
      * Player 1's playfield
      */
-    private TetrisPlayfield playfieldPlayer1;
+    public TetrisPlayfield playfieldPlayer1;
 
     /**
      * Player 2's playfield
      */
-    private TetrisPlayfield playfieldPlayer2;
+    public TetrisPlayfield playfieldPlayer2;
 
     /**
      * Size of the playfield in blocks
      */
     public Vector2D PLAYFIELD_SIZE = new Vector2D(10,20);
 
+    public Boolean DEBUG = true;
+
     /**
      * The game's observable for updating the game time
      */
     private GameObservable observable;
+
+    private JLabel statusTextField;
+
+    private DebugWindow debugWindow;
 
     /**
      * Create a new game with necessary components
@@ -39,6 +45,29 @@ public class Game extends JFrame implements Observer {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(500, 500);
         addKeyListener(new PlayerController());
+        setFocusable(true);
+
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new GridLayout(1, 2));
+        JPanel debugPanel = new JPanel();
+        debugPanel.setLayout(new FlowLayout());
+        JButton debugButton = new JButton("Launch debug window");
+        debugButton.setHorizontalAlignment(SwingConstants.LEFT);
+        debugWindow = new DebugWindow(this);
+        debugPanel.add(debugButton);
+        topPanel.add(debugPanel);
+        debugButton.addActionListener(e -> {
+            debugWindow.setVisible(true);
+        });
+        if (!DEBUG) {
+            debugPanel.setVisible(false);
+        }
+        statusTextField = new JLabel("");
+        statusTextField.setHorizontalAlignment(SwingConstants.RIGHT);
+        topPanel.add(statusTextField);
+        add(topPanel, BorderLayout.NORTH);
+
+        JPanel mainPanel = new JPanel();
 
         playfieldPlayer1 = new TetrisPlayfield(PLAYFIELD_SIZE);
         playfieldPlayer2 = new TetrisPlayfield(PLAYFIELD_SIZE);
@@ -50,13 +79,17 @@ public class Game extends JFrame implements Observer {
         player2Panel.setAlignmentX(Component.CENTER_ALIGNMENT);
         player1Panel.add(playfieldPlayer1);
         player2Panel.add(playfieldPlayer2);
+        mainPanel.add(player1Panel);
+        mainPanel.add(player2Panel);
 
-        setLayout(new FlowLayout());
-        add(player1Panel);
-        add(player2Panel);
+        add(mainPanel, BorderLayout.CENTER);
 
         observable = new GameObservable();
         observable.addObserver(this);
+
+        if (DEBUG) {
+            debugWindow.setVisible(true);
+        }
     }
 
     /**
@@ -70,9 +103,13 @@ public class Game extends JFrame implements Observer {
                 case KeyEvent.VK_RIGHT -> playfieldPlayer1.moveRight();
                 case KeyEvent.VK_A -> playfieldPlayer2.moveLeft();
                 case KeyEvent.VK_D -> playfieldPlayer2.moveRight();
-                // For debug purpose
-                case KeyEvent.VK_O -> playfieldPlayer1.generatePermanentRow();
-                case KeyEvent.VK_P -> playfieldPlayer2.generatePermanentRow();
+            }
+
+            if (DEBUG) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_O -> playfieldPlayer1.generatePermanentRow();
+                    case KeyEvent.VK_P -> playfieldPlayer2.generatePermanentRow();
+                }
             }
         }
     }
@@ -91,7 +128,12 @@ public class Game extends JFrame implements Observer {
     public void update(Observable o, Object arg) {
         playfieldPlayer1.update();
         playfieldPlayer2.update();
+        debugWindow.update();
         repaint();
+    }
+
+    public GameObservable getObservable() {
+        return observable;
     }
 
     /**
