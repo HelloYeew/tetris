@@ -56,4 +56,10 @@ public interface Tetromino {
      * @param positions A new list of position that will replace the old list
      */
     void setPositions(ArrayList<Vector2D> positions);
+
+    /**
+     * Get the name of the tetromino
+     * @return String name of this tetromino
+     */
+    String toString();
 }

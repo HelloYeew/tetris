@@ -107,4 +107,13 @@ public class TetrominoI implements Tetromino {
     public void setPositions(ArrayList<Vector2D> positions) {
         this.positions = positions;
     }
+
+    /**
+     * Get the type of the tetromino
+     *
+     * @return String Type of the tetromino
+     */
+    public String toString() {
+        return "I";
+    }
 }

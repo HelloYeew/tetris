@@ -38,7 +38,10 @@ public class DebugWindow extends JFrame {
         player1Panel.add(new JLabel("Player 1"));
         player1Panel.add(player1Info = new JTextArea(""));
         JButton player1AttackButton = new JButton("Add permenent row [O]");
-        player1AttackButton.addActionListener(e -> game.playfieldPlayer1.generatePermanentRow());
+        player1AttackButton.addActionListener(e -> {
+            game.playfieldPlayer1.generatePermanentRow();
+            game.requestFocus();
+        });
         player1Panel.add(player1AttackButton);
         player1Panel.setBorder(BorderFactory.createLineBorder(Color.black));
 
@@ -46,7 +49,10 @@ public class DebugWindow extends JFrame {
         player2Panel.add(new JLabel("Player 2"));
         player2Panel.add(player2Info = new JTextArea(""));
         JButton player2AttackButton = new JButton("Add permenent row [P]");
-        player2AttackButton.addActionListener(e -> game.playfieldPlayer2.generatePermanentRow());
+        player2AttackButton.addActionListener(e -> {
+            game.playfieldPlayer2.generatePermanentRow();
+            game.requestFocus();
+        });
         player2Panel.add(player2AttackButton);
         player2Panel.setBorder(BorderFactory.createLineBorder(Color.black));
 
