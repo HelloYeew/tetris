@@ -116,6 +116,7 @@ public class Game extends JFrame implements Observer {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_O -> playfieldPlayer1.generatePermanentRow();
                     case KeyEvent.VK_P -> playfieldPlayer2.generatePermanentRow();
+                    case KeyEvent.VK_ESCAPE -> System.exit(0);
                 }
             }
         }

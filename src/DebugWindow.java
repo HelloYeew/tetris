@@ -37,6 +37,7 @@ public class DebugWindow extends JFrame {
         JPanel player1Panel = new JPanel();
         player1Panel.add(new JLabel("Player 1"));
         player1Panel.add(player1Info = new JTextArea(""));
+        player1Info.setEditable(false);
         JButton player1AttackButton = new JButton("Add permenent row [O]");
         player1AttackButton.addActionListener(e -> {
             game.playfieldPlayer1.generatePermanentRow();
@@ -48,6 +49,7 @@ public class DebugWindow extends JFrame {
         JPanel player2Panel = new JPanel();
         player2Panel.add(new JLabel("Player 2"));
         player2Panel.add(player2Info = new JTextArea(""));
+        player2Info.setEditable(false);
         JButton player2AttackButton = new JButton("Add permenent row [P]");
         player2AttackButton.addActionListener(e -> {
             game.playfieldPlayer2.generatePermanentRow();
@@ -59,6 +61,7 @@ public class DebugWindow extends JFrame {
         JPanel gameStatusPanel = new JPanel();
         gameStatusPanel.add(new JLabel("Game status"));
         gameStatusPanel.add(gameStatusInfo = new JTextArea(""));
+        gameStatusInfo.setEditable(false);
 
         setLayout(new GridLayout(3, 1));
         add(player1Panel);

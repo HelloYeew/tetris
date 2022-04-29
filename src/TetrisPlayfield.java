@@ -109,8 +109,13 @@ public class TetrisPlayfield extends JPanel {
         for (Vector2D position : currentTetromino.getPositions()) {
             // Check if there's other block below the tetromino that's not itself, unbind the current tetromino
             if (position.y < SIZE.y - 1) {
-                if (blocks[position.x][position.y + 1] != null && !currentTetromino.getPositions().contains(new Vector2D(position.x, position.y + 1))) {
+                if (blocks[position.x][position.y + 1] != null && blocks[position.x][position.y + 1] != currentTetromino.getColor()) {
                     createNewTetromino();
+                } else if (blocks[position.x][position.y + 1] != null && blocks[position.x][position.y + 1] == currentTetromino.getColor()) {
+                    // Check that is the block below is not inside itself
+                    if (currentTetromino.getPositions().stream().noneMatch(p -> p.x == position.x && p.y == position.y + 1)) {
+                        createNewTetromino();
+                    }
                 }
             }
 
@@ -195,6 +200,30 @@ public class TetrisPlayfield extends JPanel {
                     blocks[x][y] = Color.DARK_GRAY;
                 }
                 break;
+            }
+        }
+    }
+
+    private void checkRow() {
+        // if all blocks fill in a row, remove the row
+        for (int y = 0; y < SIZE.y; y++) {
+            boolean isRowFull = true;
+            for (int x = 0; x < SIZE.x; x++) {
+                if (blocks[x][y] == null && blocks[x][y] != Color.DARK_GRAY) {
+                    isRowFull = false;
+                }
+            }
+            if (isRowFull) {
+                // remove the row and move all the rows above down
+                for (int x = 0; x < SIZE.x; x++) {
+                    blocks[x][y] = null;
+                }
+                for (int y2 = y; y2 > 0; y2--) {
+                    for (int x = 0; x < SIZE.x; x++) {
+                        blocks[x][y2] = blocks[x][y2 - 1];
+                    }
+                }
+                y++;
             }
         }
     }
