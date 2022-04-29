@@ -4,6 +4,9 @@ import tetromino.TetrominoType;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 /**
  * Playfield for player.
@@ -34,6 +37,9 @@ public class TetrisPlayfield extends JPanel {
      */
     public Vector2D SPAWN_POSITION = new Vector2D(3,3);
 
+    /**
+     * The Y position that will check the game over condition there.
+     */
     private int gameOverYPosition = 5;
 
     /**
@@ -107,16 +113,18 @@ public class TetrisPlayfield extends JPanel {
      *
      * If collided, it will create a new tetromino.
      */
-    private void checkCollision() {
+    private Boolean checkCollision() {
         for (Vector2D position : currentTetromino.getPositions()) {
             // Check if there's other block below the tetromino that's not itself, unbind the current tetromino
             if (position.y < SIZE.y - 1) {
                 if (blocks[position.x][position.y + 1] != null && blocks[position.x][position.y + 1] != currentTetromino.getColor()) {
                     createNewTetromino();
+                    return true;
                 } else if (blocks[position.x][position.y + 1] != null && blocks[position.x][position.y + 1] == currentTetromino.getColor()) {
                     // Check that is the block below is not inside itself
                     if (currentTetromino.getPositions().stream().noneMatch(p -> p.x == position.x && p.y == position.y + 1)) {
                         createNewTetromino();
+                        return true;
                     }
                 }
             }
@@ -124,8 +132,10 @@ public class TetrisPlayfield extends JPanel {
             // if it's the bottom of the playfield, create a new tetromino
             if (position.y == SIZE.y - 1) {
                 createNewTetromino();
+                return true;
             }
         }
+        return false;
     }
 
     /**
@@ -178,6 +188,24 @@ public class TetrisPlayfield extends JPanel {
     }
 
     /**
+     * Move down the tetromino quicker than normal drop.
+     *
+     * This method will check on collision too to make it bind a new tetromino if it's collide with another one or go to the bottom of the playfield.
+     *
+     * This method need to recall almost all the paint method due to the frame stuttering.
+     */
+    public void moveDown() {
+        if (currentTetromino.getPositions().stream().allMatch(position -> position.y < SIZE.y - 1) && !checkCollision()) {
+            cleanCurrentTetrominoPositions();
+            for (Vector2D position : currentTetromino.getPositions()) {
+                position.y++;
+            }
+            convertTetrominoToPixel();
+            repaint();
+        }
+    }
+
+    /**
      * Paint the grid
      * @param g the graphics context in which to paint
      */
@@ -199,6 +227,7 @@ public class TetrisPlayfield extends JPanel {
      * Generate a permanent row of ghost block at the bottom of the playfield
      */
     public void generatePermanentRow() {
+        // TODO: When generate, it need to push up the entire playfield by 1
         for (int y = SIZE.y - 1; y >= 0; y--) {
             if (blocks[0][y] == Color.DARK_GRAY) {
                 continue;
@@ -235,6 +264,11 @@ public class TetrisPlayfield extends JPanel {
         }
     }
 
+    /**
+     * Check the game over condition by check that is there any block in the row that we set as game over row.
+     *
+     * @return true if there is any block in the game over row, false otherwise
+     */
     public Boolean isGameOver() {
         // if row in gameOverYPosition has a block and is not currentTetromino, game over
         for (int x = 0; x < SIZE.x; x++) {
@@ -244,8 +278,6 @@ public class TetrisPlayfield extends JPanel {
         }
         return false;
     }
-
-    // TODO: Drop control
 
     /**
      * Get the current tetromino that player is controlling

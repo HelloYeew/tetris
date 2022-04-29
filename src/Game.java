@@ -107,8 +107,10 @@ public class Game extends JFrame implements Observer {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT -> playfieldPlayer1.moveLeft();
                 case KeyEvent.VK_RIGHT -> playfieldPlayer1.moveRight();
+                case KeyEvent.VK_DOWN -> playfieldPlayer1.moveDown();
                 case KeyEvent.VK_A -> playfieldPlayer2.moveLeft();
                 case KeyEvent.VK_D -> playfieldPlayer2.moveRight();
+                case KeyEvent.VK_S -> playfieldPlayer2.moveDown();
                 case KeyEvent.VK_SPACE -> pause();
             }
 
