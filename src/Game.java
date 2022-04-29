@@ -43,7 +43,7 @@ public class Game extends JFrame implements Observer {
     public Game() {
         super("just a tetris");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 500);
+        setSize(500, 700);
         addKeyListener(new PlayerController());
         setFocusable(true);
 
@@ -137,6 +137,16 @@ public class Game extends JFrame implements Observer {
         playfieldPlayer1.update();
         playfieldPlayer2.update();
         debugWindow.update();
+        if (playfieldPlayer1.isGameOver() || playfieldPlayer2.isGameOver()) {
+            statusTextField.setForeground(Color.RED);
+            if (playfieldPlayer1.isGameOver()) {
+                statusTextField.setText("Player 1 lost!");
+            } else {
+                statusTextField.setText("Player 2 lost!");
+            }
+            observable.setRunning(false);
+            debugWindow.update();
+        }
         repaint();
     }
 

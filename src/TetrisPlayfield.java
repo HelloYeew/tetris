@@ -34,6 +34,8 @@ public class TetrisPlayfield extends JPanel {
      */
     public Vector2D SPAWN_POSITION = new Vector2D(3,3);
 
+    private int gameOverYPosition = 5;
+
     /**
      * Initialize the playfield with the given size.
      * @param size the size of the playfield in Vector2D
@@ -103,7 +105,7 @@ public class TetrisPlayfield extends JPanel {
     /**
      * Check that the current tetromino is collide with other tetromino or collide with the ground.
      *
-     * If collide, it will create a new tetromino.
+     * If collided, it will create a new tetromino.
      */
     private void checkCollision() {
         for (Vector2D position : currentTetromino.getPositions()) {
@@ -186,6 +188,11 @@ public class TetrisPlayfield extends JPanel {
                 g.drawRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
             }
         }
+        // paint the border as red at game over
+        g.setColor(Color.RED);
+        for (int x = 0; x < SIZE.x; x++) {
+            g.drawRect(x * BLOCK_SIZE, gameOverYPosition * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+        }
     }
 
     /**
@@ -226,6 +233,16 @@ public class TetrisPlayfield extends JPanel {
                 y++;
             }
         }
+    }
+
+    public Boolean isGameOver() {
+        // if row in gameOverYPosition has a block and is not currentTetromino, game over
+        for (int x = 0; x < SIZE.x; x++) {
+            if (blocks[x][gameOverYPosition] != null && blocks[x][gameOverYPosition] != currentTetromino.getColor()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // TODO: Drop control

@@ -35,7 +35,6 @@ public enum TetrominoType {
             case S -> new TetrominoS(position);
             case T -> new TetrominoT(position);
             case Z -> new TetrominoZ(position);
-            default -> throw new IllegalArgumentException("Unknown TetrominoType: " + type);
         };
     }
 }
