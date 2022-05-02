@@ -22,10 +22,10 @@ public class TetrominoO implements Tetromino {
     @Override
     public void generateBlock() {
         positions = new ArrayList<>();
+        positions.add(new Vector2D(origin.x, origin.y - 1));
+        positions.add(new Vector2D(origin.x + 1, origin.y - 1));
         positions.add(new Vector2D(origin.x, origin.y));
         positions.add(new Vector2D(origin.x + 1, origin.y));
-        positions.add(new Vector2D(origin.x, origin.y + 1));
-        positions.add(new Vector2D(origin.x + 1, origin.y + 1));
     }
 
     /**

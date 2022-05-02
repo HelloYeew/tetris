@@ -195,7 +195,8 @@ public class TetrisPlayfield extends JPanel {
      * This method need to recall almost all the paint method due to the frame stuttering.
      */
     public void moveDown() {
-        if (currentTetromino.getPositions().stream().allMatch(position -> position.y < SIZE.y - 1) && !checkCollision()) {
+        // TODO: The update of the tetromino position has conflict with the main update loop. Need to fix it.
+        if (currentTetromino.getPositions().stream().allMatch(position -> position.y < SIZE.y - 2) && !checkCollision()) {
             cleanCurrentTetrominoPositions();
             for (Vector2D position : currentTetromino.getPositions()) {
                 position.y++;

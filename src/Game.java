@@ -149,6 +149,10 @@ public class Game extends JFrame implements Observer {
             observable.setRunning(false);
             debugWindow.update();
         }
+        // If the game window loses focus, pause the game
+        if (!isFocused() && observable.getTick() > 1) {
+            pause();
+        }
         repaint();
     }
 
