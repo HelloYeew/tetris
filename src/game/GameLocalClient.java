@@ -28,6 +28,9 @@ public class GameLocalClient extends JFrame implements Observer {
      */
     public Vector2D PLAYFIELD_SIZE = new Vector2D(10,20);
 
+    /**
+     * Show debug information.
+     */
     public Boolean DEBUG = true;
 
     /**
@@ -35,8 +38,14 @@ public class GameLocalClient extends JFrame implements Observer {
      */
     private GameObservable observable;
 
+    /**
+     * Status text field at the right-top corner of the game window.
+     */
     private JLabel statusTextField;
 
+    /**
+     * Debug window that will appear only when <code>DEBUG</code> is true.
+     */
     private LocalDebugWindow debugWindow;
 
     /**

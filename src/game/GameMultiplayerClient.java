@@ -124,6 +124,11 @@ public class GameMultiplayerClient extends JFrame implements Observer {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Initialize the game window.
+     *
+     * This method must be called after the connection to the server has been established.
+     */
     private void initGui() {
         // Add topPanel include the debug window button and status text field
         JPanel topPanel = new JPanel();
@@ -171,7 +176,7 @@ public class GameMultiplayerClient extends JFrame implements Observer {
     }
 
     /**
-     * Class for handling key events from game window
+     * Class for handling key events from game window and broadcast them to the server.
      */
     class PlayerController extends KeyAdapter {
         @Override
@@ -241,6 +246,7 @@ public class GameMultiplayerClient extends JFrame implements Observer {
      * Start the game
      */
     public void start() {
+        // Start the connection to the server
         client.start();
         try {
             client.connect(5000, "localhost", 5455);
@@ -251,13 +257,14 @@ public class GameMultiplayerClient extends JFrame implements Observer {
             System.exit(0);
         }
 
-        // Add GameObservable
+        // Add GameObservable after we have received the information about the tick.
         observable = new GameObservable(delayedTick);
         observable.addObserver(this);
 
         statusTextField.setText("Waiting for other player...");
         statusTextField.setForeground(Color.BLACK);
 
+        // Update the debug window manually since the game is not running yet.
         debugWindow.update();
     }
 
@@ -268,7 +275,7 @@ public class GameMultiplayerClient extends JFrame implements Observer {
         if (observable.getRunning()) {
             observable.setRunning(false);
             statusTextField.setForeground(Color.RED);
-            statusTextField.setText("Game paused! Press SPACE to continue.");
+            statusTextField.setText("Game paused!");
         } else {
             observable.setRunning(true);
             statusTextField.setText("");

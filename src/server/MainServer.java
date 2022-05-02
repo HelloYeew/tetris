@@ -6,6 +6,7 @@ import com.esotericsoftware.kryonet.Server;
 import math.Vector2D;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class MainServer extends JFrame {
     public static final int PORT = 5455;
@@ -26,11 +27,17 @@ public class MainServer extends JFrame {
         setSize(600, 400);
         setAlwaysOnTop(true);
 
+        // Add top panel
+        JPanel topPanel = new JPanel();
+        JButton pauseButton = new JButton("Pause");
+        topPanel.add(pauseButton);
+        add(topPanel, BorderLayout.NORTH);
+
         // Add scrollable text area for logging.
         logTextArea = new JTextArea();
         logTextArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(logTextArea);
-        add(scrollPane);
+        add(scrollPane, BorderLayout.CENTER);
 
         server = new Server();
         server.getKryo().register(Vector2D.class);
@@ -93,6 +100,8 @@ public class MainServer extends JFrame {
                 logTextArea.append("Player disconnected\n");
             }
         });
+
+        pauseButton.addActionListener(e -> server.sendToAllTCP(GameState.PAUSE));
     }
 
     public void start() {
