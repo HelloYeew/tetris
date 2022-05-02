@@ -1,3 +1,5 @@
+package game;
+
 import java.util.Observable;
 
 /**
@@ -28,12 +30,13 @@ public class GameObservable extends Observable {
     /**
      * Delay between each update of the game time in milliseconds.
      */
-    public long DELAYED_TICK = 200;
+    public long delayedTick;
 
     /**
      * Create a new observable with initial state.
      */
-    public GameObservable() {
+    public GameObservable(int delay) {
+        this.delayedTick = delay;
         this.tick = 0;
         this.isRunning = false;
         this.isOver = false;
@@ -50,7 +53,7 @@ public class GameObservable extends Observable {
                     tick();
                 }
                 try {
-                    Thread.sleep(DELAYED_TICK);
+                    Thread.sleep(delayedTick);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

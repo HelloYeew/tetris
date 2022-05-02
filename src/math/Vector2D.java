@@ -24,6 +24,10 @@ public class Vector2D {
         this.y = y;
     }
 
+    public Vector2D() {
+        this(0, 0);
+    }
+
     /**
      * Get the x position
      * @return The x position

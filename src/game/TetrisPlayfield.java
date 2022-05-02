@@ -1,3 +1,5 @@
+package game;
+
 import math.Vector2D;
 import tetromino.Tetromino;
 import tetromino.TetrominoType;
