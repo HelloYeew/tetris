@@ -20,12 +20,12 @@ import java.util.Observer;
  */
 public class GameMultiplayerClient extends JFrame implements Observer {
     /**
-     * Player 1's playfield
+     * Current player's playfield.
      */
     public TetrisPlayfield ownPlayfield;
 
     /**
-     * Player 2's playfield
+     * Opponent's playfield. Mainly broadcast opponent's control from server.
      */
     public TetrisPlayfield opponentPlayfield;
 
@@ -34,8 +34,14 @@ public class GameMultiplayerClient extends JFrame implements Observer {
      */
     public Vector2D playfieldSize;
 
+    /**
+     * Tick delayed that is used to control the game speed. Normally get this from server.
+     */
     public int delayedTick;
 
+    /**
+     * Show debug information.
+     */
     public Boolean DEBUG = false;
 
     /**
@@ -43,17 +49,26 @@ public class GameMultiplayerClient extends JFrame implements Observer {
      */
     private GameObservable observable;
 
+    /**
+     * Status text field at the right-top corner of the game window.
+     */
     private JLabel statusTextField;
 
-    private DebugWindow debugWindow;
+    /**
+     * Debug window that will appear only when <code>DEBUG</code> is true.
+     */
+    private MultiplayerDebugWindow debugWindow;
 
+    /**
+     * The game's client that connects to the server.
+     */
     private Client client;
 
     /**
      * Create a new game with necessary components
      */
     public GameMultiplayerClient() {
-        super("just a tetris");
+        super("just a tetris with multiplayer");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(500, 700);
         addKeyListener(new PlayerController());
@@ -86,9 +101,8 @@ public class GameMultiplayerClient extends JFrame implements Observer {
                         // Pause the game
                         pause();
                     }
-                } else if (object instanceof ControlDirection) {
+                } else if (object instanceof ControlDirection controlDirection) {
                     // Server sent a new control direction from opponent
-                    ControlDirection controlDirection = (ControlDirection) object;
                     if (controlDirection == ControlDirection.LEFT) {
                         opponentPlayfield.moveLeft();
                     } else if (controlDirection == ControlDirection.RIGHT) {
@@ -118,7 +132,7 @@ public class GameMultiplayerClient extends JFrame implements Observer {
         debugPanel.setLayout(new FlowLayout());
         JButton debugButton = new JButton("Launch debug window");
         debugButton.setHorizontalAlignment(SwingConstants.LEFT);
-        debugWindow = new DebugWindow(this);
+        debugWindow = new MultiplayerDebugWindow(this);
         debugPanel.add(debugButton);
         topPanel.add(debugPanel);
         debugButton.addActionListener(e -> {
@@ -139,16 +153,16 @@ public class GameMultiplayerClient extends JFrame implements Observer {
         JPanel mainPanel = new JPanel();
         ownPlayfield = new TetrisPlayfield(playfieldSize);
         opponentPlayfield = new TetrisPlayfield(playfieldSize);
-        JPanel player1Panel = new JPanel();
-        JPanel player2Panel = new JPanel();
-        player1Panel.setLayout(new BoxLayout(player1Panel, BoxLayout.Y_AXIS));
-        player2Panel.setLayout(new BoxLayout(player2Panel, BoxLayout.Y_AXIS));
-        player1Panel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        player2Panel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        player1Panel.add(ownPlayfield);
-        player2Panel.add(opponentPlayfield);
-        mainPanel.add(player1Panel);
-        mainPanel.add(player2Panel);
+        JPanel ownPanel = new JPanel();
+        JPanel opponentPanel = new JPanel();
+        ownPanel.setLayout(new BoxLayout(ownPanel, BoxLayout.Y_AXIS));
+        opponentPanel.setLayout(new BoxLayout(opponentPanel, BoxLayout.Y_AXIS));
+        ownPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        opponentPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        ownPanel.add(ownPlayfield);
+        opponentPanel.add(opponentPlayfield);
+        mainPanel.add(ownPanel);
+        mainPanel.add(opponentPanel);
         add(mainPanel, BorderLayout.CENTER);
 
         if (DEBUG) {
@@ -178,10 +192,8 @@ public class GameMultiplayerClient extends JFrame implements Observer {
             }
 
             if (DEBUG) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_O -> ownPlayfield.generatePermanentRow();
-                    case KeyEvent.VK_P -> opponentPlayfield.generatePermanentRow();
-                    case KeyEvent.VK_ESCAPE -> System.exit(0);
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    System.exit(0);
                 }
             }
         }
@@ -205,9 +217,11 @@ public class GameMultiplayerClient extends JFrame implements Observer {
         if (ownPlayfield.isGameOver() || opponentPlayfield.isGameOver()) {
             statusTextField.setForeground(Color.RED);
             if (ownPlayfield.isGameOver()) {
-                statusTextField.setText("Player 1 lost!");
+                statusTextField.setForeground(Color.RED);
+                statusTextField.setText("You lost!");
             } else {
-                statusTextField.setText("Player 2 lost!");
+                statusTextField.setForeground(Color.GREEN);
+                statusTextField.setText("You win!");
             }
             observable.setRunning(false);
             debugWindow.update();
@@ -238,7 +252,6 @@ public class GameMultiplayerClient extends JFrame implements Observer {
         }
 
         // Add GameObservable
-        // TODO: Delay need to sync with server
         observable = new GameObservable(delayedTick);
         observable.addObserver(this);
 

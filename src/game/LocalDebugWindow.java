@@ -4,9 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * DebugWindow is a JFrame that displays all the information about the game for debugging purposes.
+ * JFrame that displays all the information about the game for debugging purposes.
  */
-public class DebugWindow extends JFrame {
+public class LocalDebugWindow extends JFrame {
     /**
      * Player 1 information text area.
      */
@@ -25,13 +25,13 @@ public class DebugWindow extends JFrame {
     /**
      * The Game object that this DebugWindow bind and is displaying information about.
      */
-    private GameMultiplayerClient gameClient;
+    private GameLocalClient gameClient;
 
     /**
      * Constructor for DebugWindow.
      * @param gameClient The Game object that this DebugWindow bind and is displaying information about.
      */
-    public DebugWindow(GameMultiplayerClient gameClient) {
+    public LocalDebugWindow(GameLocalClient gameClient) {
         super("Debug Tools");
         this.gameClient = gameClient;
         setSize(800, 350);
@@ -42,7 +42,7 @@ public class DebugWindow extends JFrame {
         player1Info.setEditable(false);
         JButton player1AttackButton = new JButton("Add permenent row [O]");
         player1AttackButton.addActionListener(e -> {
-            gameClient.ownPlayfield.generatePermanentRow();
+            gameClient.playfieldPlayer1.generatePermanentRow();
             gameClient.requestFocus();
         });
         player1Panel.add(player1AttackButton);
@@ -54,7 +54,7 @@ public class DebugWindow extends JFrame {
         player2Info.setEditable(false);
         JButton player2AttackButton = new JButton("Add permenent row [P]");
         player2AttackButton.addActionListener(e -> {
-            gameClient.opponentPlayfield.generatePermanentRow();
+            gameClient.playfieldPlayer2.generatePermanentRow();
             gameClient.requestFocus();
         });
         player2Panel.add(player2AttackButton);
@@ -79,17 +79,17 @@ public class DebugWindow extends JFrame {
      */
     public void update() {
         String player1Detail = "";
-        player1Detail += "Size : " + gameClient.ownPlayfield.SIZE + "\n";
-        player1Detail += "Spawn location : " + gameClient.ownPlayfield.SPAWN_POSITION + "\n";
-        player1Detail += "Current tetromino : " + gameClient.ownPlayfield.getCurrentTetromino().toString() + "\n";
-        player1Detail += "Tetromino position : " + gameClient.ownPlayfield.getCurrentTetromino().getPositions().toString();
+        player1Detail += "Size : " + gameClient.playfieldPlayer1.SIZE + "\n";
+        player1Detail += "Spawn location : " + gameClient.playfieldPlayer1.SPAWN_POSITION + "\n";
+        player1Detail += "Current tetromino : " + gameClient.playfieldPlayer1.getCurrentTetromino().toString() + "\n";
+        player1Detail += "Tetromino position : " + gameClient.playfieldPlayer1.getCurrentTetromino().getPositions().toString();
         player1Info.setText(player1Detail);
 
         String player2Detail = "";
-        player2Detail += "Size : " + gameClient.opponentPlayfield.SIZE + "\n";
-        player2Detail += "Spawn location : " + gameClient.opponentPlayfield.SPAWN_POSITION + "\n";
-        player2Detail += "Current tetromino : " + gameClient.opponentPlayfield.getCurrentTetromino().toString() + "\n";
-        player2Detail += "Tetromino position : " + gameClient.opponentPlayfield.getCurrentTetromino().getPositions().toString();
+        player2Detail += "Size : " + gameClient.playfieldPlayer2.SIZE + "\n";
+        player2Detail += "Spawn location : " + gameClient.playfieldPlayer2.SPAWN_POSITION + "\n";
+        player2Detail += "Current tetromino : " + gameClient.playfieldPlayer2.getCurrentTetromino().toString() + "\n";
+        player2Detail += "Tetromino position : " + gameClient.playfieldPlayer2.getCurrentTetromino().getPositions().toString();
         player2Info.setText(player2Detail);
 
         String gameStatusDetail = "";
