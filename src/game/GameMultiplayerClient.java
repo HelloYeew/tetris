@@ -6,6 +6,7 @@ import com.esotericsoftware.kryonet.Listener;
 import math.Vector2D;
 import server.ControlDirection;
 import server.GameState;
+import server.MainServer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -249,7 +250,7 @@ public class GameMultiplayerClient extends JFrame implements Observer {
         // Start the connection to the server
         client.start();
         try {
-            client.connect(5000, "localhost", 5455);
+            client.connect(5000, "localhost", MainServer.PORT);
             initGui();
             setVisible(true);
         } catch (IOException e) {

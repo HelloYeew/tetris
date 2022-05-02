@@ -8,19 +8,48 @@ import math.Vector2D;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Main server of the game.
+ */
 public class MainServer extends JFrame {
+    /**
+     * The port of the server.
+     */
     public static final int PORT = 5455;
 
+    /**
+     * Playfield size that server will broadcast to clients to set their playfield size.
+     */
     public Vector2D PLAYFIELD_SIZE = new Vector2D(10,20);
 
+    /**
+     * Tick per millisecond that server will broadcast to clients to set their tick per millisecond.
+     */
     public int DELAYED_TICKS = 200;
+
+    /**
+     * The server.
+     */
     private Server server;
+
+    /**
+     * Main text area for logging server events.
+     */
     private JTextArea logTextArea;
 
+    /**
+     * Connection from player 1.
+     */
     private Connection player1connection;
 
+    /**
+     * Connection from player 2.
+     */
     private Connection player2connection;
 
+    /**
+     * Initialize the server and its GUI.
+     */
     public MainServer() {
         super("Server");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,6 +68,7 @@ public class MainServer extends JFrame {
         JScrollPane scrollPane = new JScrollPane(logTextArea);
         add(scrollPane, BorderLayout.CENTER);
 
+        // Initialize the server
         server = new Server();
         server.getKryo().register(Vector2D.class);
         server.getKryo().register(ControlDirection.class);
@@ -104,6 +134,9 @@ public class MainServer extends JFrame {
         pauseButton.addActionListener(e -> server.sendToAllTCP(GameState.PAUSE));
     }
 
+    /**
+     * Start the server
+     */
     public void start() {
         setVisible(true);
         server.start();
