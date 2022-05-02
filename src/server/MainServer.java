@@ -3,7 +3,6 @@ package server;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
-import game.TetrisPlayfield;
 import math.Vector2D;
 
 import javax.swing.*;

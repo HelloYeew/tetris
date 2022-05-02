@@ -36,7 +36,7 @@ public class GameMultiplayerClient extends JFrame implements Observer {
 
     public int delayedTick;
 
-    public Boolean DEBUG = true;
+    public Boolean DEBUG = false;
 
     /**
      * The game's observable for updating the game time
@@ -80,6 +80,7 @@ public class GameMultiplayerClient extends JFrame implements Observer {
                     // Server sent a new game state
                     if (gameState == GameState.START) {
                         // Start the observable
+                        statusTextField.setText("");
                         observable.start();
                     } else if (gameState == GameState.PAUSE) {
                         // Pause the game
@@ -95,6 +96,7 @@ public class GameMultiplayerClient extends JFrame implements Observer {
                     } else if (controlDirection == ControlDirection.DOWN) {
                         opponentPlayfield.moveDown();
                     }
+                    System.out.println("Received control direction: " + controlDirection);
                 }
             }
 
@@ -161,15 +163,18 @@ public class GameMultiplayerClient extends JFrame implements Observer {
         @Override
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_LEFT:
+                case KeyEvent.VK_LEFT -> {
                     ownPlayfield.moveLeft();
                     client.sendTCP(ControlDirection.LEFT);
-                case KeyEvent.VK_RIGHT:
+                }
+                case KeyEvent.VK_RIGHT -> {
                     ownPlayfield.moveRight();
                     client.sendTCP(ControlDirection.RIGHT);
-                case KeyEvent.VK_DOWN:
+                }
+                case KeyEvent.VK_DOWN -> {
                     ownPlayfield.moveDown();
                     client.sendTCP(ControlDirection.DOWN);
+                }
             }
 
             if (DEBUG) {
@@ -236,6 +241,9 @@ public class GameMultiplayerClient extends JFrame implements Observer {
         // TODO: Delay need to sync with server
         observable = new GameObservable(delayedTick);
         observable.addObserver(this);
+
+        statusTextField.setText("Waiting for other player...");
+        statusTextField.setForeground(Color.BLACK);
 
         debugWindow.update();
     }
