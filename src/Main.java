@@ -17,7 +17,7 @@ public class Main extends JFrame {
     public Main() {
         setTitle("Welcome to tetris!");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 150);
+        setSize(600, 200);
 
         // Add top panel
         JPanel topPanel = new JPanel();
@@ -48,6 +48,15 @@ public class Main extends JFrame {
         onlineGamePanel.add(onlineGameLabel);
         centerPanel.add(onlineGamePanel);
         add(centerPanel, BorderLayout.CENTER);
+
+        // Add bottom panel
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        bottomPanel.setLayout(new FlowLayout());
+        JLabel bottomLabel = new JLabel("Go one more step, and you will reach the goal! (I mean 7th floor)");
+        bottomLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        bottomPanel.add(bottomLabel);
+        add(bottomPanel, BorderLayout.SOUTH);
 
         localGameButton.addActionListener(new ActionListener() {
             @Override

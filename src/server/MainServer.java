@@ -77,8 +77,13 @@ public class MainServer extends JFrame {
             @Override
             public void received(Connection connection, Object object) {
                 if (object instanceof ControlDirection direction) {
-                    server.sendToAllTCP(direction);
-                    logTextArea.append("Player sent direction: " + direction + "\n");
+                    if (connection == player1connection) {
+                        player2connection.sendTCP(direction);
+                        logTextArea.append("Player 1 sent direction " + direction + "\n");
+                    } else {
+                        player1connection.sendTCP(direction);
+                        logTextArea.append("Player 2 sent direction " + direction + "\n");
+                    }
                     // scroll the scroll pane to the bottom
                     logTextArea.setCaretPosition(logTextArea.getDocument().getLength());
                 }
