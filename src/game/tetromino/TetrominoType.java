@@ -1,7 +1,8 @@
-package tetromino;
+package game.tetromino;
 
 import math.Vector2D;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -36,5 +37,21 @@ public enum TetrominoType {
             case T -> new TetrominoT(position);
             case Z -> new TetrominoZ(position);
         };
+    }
+
+    /**
+     * Get a list include all tetromino types.
+     * @return A list include all tetromino types.
+     */
+    public static List<Tetromino> getAllTetrominosShape() {
+        return List.of(
+                new TetrominoI(new Vector2D(0, 0)),
+                new TetrominoJ(new Vector2D(0, 0)),
+                new TetrominoL(new Vector2D(0, 0)),
+                new TetrominoO(new Vector2D(0, 0)),
+                new TetrominoS(new Vector2D(0, 0)),
+                new TetrominoT(new Vector2D(0, 0)),
+                new TetrominoZ(new Vector2D(0, 0))
+        );
     }
 }

@@ -1,19 +1,17 @@
-package tetromino;
+package game.tetromino;
 
 import math.Vector2D;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-/**
- * Class representing an I Tetromino.
- */
-public class TetrominoI implements Tetromino {
-    private Color color = Color.CYAN;
+public class TetrominoO implements Tetromino {
+
+    private Color color = Color.YELLOW;
     private Vector2D origin;
     private ArrayList<Vector2D> positions;
 
-    public TetrominoI(Vector2D origin) {
+    public TetrominoO(Vector2D origin) {
         this.origin = origin;
         generateBlock();
     }
@@ -24,18 +22,18 @@ public class TetrominoI implements Tetromino {
     @Override
     public void generateBlock() {
         positions = new ArrayList<>();
+        positions.add(new Vector2D(origin.x, origin.y - 1));
+        positions.add(new Vector2D(origin.x + 1, origin.y - 1));
         positions.add(new Vector2D(origin.x, origin.y));
         positions.add(new Vector2D(origin.x + 1, origin.y));
-        positions.add(new Vector2D(origin.x + 2, origin.y));
-        positions.add(new Vector2D(origin.x + 3, origin.y));
     }
 
     /**
-     * Rotate the tetromino
+     * Rotate the tetrmino
      */
     @Override
     public void rotate() {
-        // TODO: Implement the state design pattern on this since we are not sure on how many states we will have
+
     }
 
     /**
@@ -86,6 +84,8 @@ public class TetrominoI implements Tetromino {
     @Override
     public void setOrigin(Vector2D origin) {
         this.origin = origin;
+        // after setting the origin, we need to update the position of the block
+        generateBlock();
     }
 
     /**
@@ -106,14 +106,5 @@ public class TetrominoI implements Tetromino {
     @Override
     public void setPositions(ArrayList<Vector2D> positions) {
         this.positions = positions;
-    }
-
-    /**
-     * Get the type of the tetromino
-     *
-     * @return String Type of the tetromino
-     */
-    public String toString() {
-        return "I";
     }
 }

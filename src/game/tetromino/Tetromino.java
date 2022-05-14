@@ -1,10 +1,13 @@
-package tetromino;
+package game.tetromino;
 
 import math.Vector2D;
 
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Interface for tetromino.
+ */
 public interface Tetromino {
     /**
      * Initialize other block from origin

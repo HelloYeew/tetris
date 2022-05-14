@@ -1,17 +1,17 @@
-package tetromino;
+package game.tetromino;
 
 import math.Vector2D;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-public class TetrominoZ implements Tetromino {
+public class TetrominoL implements Tetromino {
 
-    private Color color = Color.RED;
+    private Color color = Color.ORANGE;
     private Vector2D origin;
     private ArrayList<Vector2D> positions;
 
-    public TetrominoZ(Vector2D origin) {
+    public TetrominoL(Vector2D origin) {
         this.origin = origin;
         generateBlock();
     }
@@ -22,10 +22,10 @@ public class TetrominoZ implements Tetromino {
     @Override
     public void generateBlock() {
         positions = new ArrayList<>();
-        positions.add(new Vector2D(origin.x, origin.y - 1));
-        positions.add(new Vector2D(origin.x + 1, origin.y - 1));
+        positions.add(new Vector2D(origin.x, origin.y));
         positions.add(new Vector2D(origin.x + 1, origin.y));
         positions.add(new Vector2D(origin.x + 2, origin.y));
+        positions.add(new Vector2D(origin.x + 2, origin.y - 1));
     }
 
     /**
@@ -84,6 +84,8 @@ public class TetrominoZ implements Tetromino {
     @Override
     public void setOrigin(Vector2D origin) {
         this.origin = origin;
+        // after setting the origin, we need to update the position of the block
+        generateBlock();
     }
 
     /**

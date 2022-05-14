@@ -1,14 +1,12 @@
 package game;
 
+import game.random.TetrominoRandomStrategy;
+import game.random.TraditionalRandomStrategy;
 import math.Vector2D;
-import tetromino.Tetromino;
-import tetromino.TetrominoType;
+import game.tetromino.Tetromino;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.stream.Collectors;
 
 /**
  * Playfield for player.
@@ -43,6 +41,8 @@ public class TetrisPlayfield extends JPanel {
      * The Y position that will check the game over condition there.
      */
     private int gameOverYPosition = 5;
+
+    public TetrominoRandomStrategy randomStrategy = new TraditionalRandomStrategy();
 
     /**
      * Initialize the playfield with the given size.
@@ -90,6 +90,7 @@ public class TetrisPlayfield extends JPanel {
      * Paint all the current tetromino posuitions to the playfield.
      */
     private void convertTetrominoToPixel() {
+        cleanCurrentTetrominoPositions();
         for (Vector2D position : currentTetromino.getPositions()) {
             blocks[position.x][position.y] = currentTetromino.getColor();
         }
@@ -144,7 +145,9 @@ public class TetrisPlayfield extends JPanel {
      * Set a new current tetromino by using random utilities in the tetromino type enum.
      */
     private void createNewTetromino() {
-        currentTetromino = TetrominoType.getRandomTetromino(SPAWN_POSITION);
+        Tetromino nextTetromino = randomStrategy.getNextTetromino();
+        nextTetromino.setOrigin(SPAWN_POSITION);
+        currentTetromino = nextTetromino;
     }
 
     /**

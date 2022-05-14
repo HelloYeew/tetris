@@ -1,4 +1,4 @@
-package tetromino;
+package game.tetromino;
 
 import math.Vector2D;
 
@@ -84,6 +84,8 @@ public class TetrominoJ implements Tetromino {
     @Override
     public void setOrigin(Vector2D origin) {
         this.origin = origin;
+        // after setting the origin, we need to update the position of the block
+        generateBlock();
     }
 
     /**
