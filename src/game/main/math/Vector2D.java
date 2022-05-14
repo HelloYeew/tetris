@@ -1,4 +1,4 @@
-package math;
+package game.main.math;
 
 /**
  * Class that mock 2D vector in some popular game engines.

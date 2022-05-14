@@ -1,9 +1,9 @@
-package game;
+package game.main;
 
-import game.random.TetrominoRandomStrategy;
-import game.random.TraditionalRandomStrategy;
-import math.Vector2D;
-import game.tetromino.Tetromino;
+import game.main.random.TetrominoRandomStrategy;
+import game.main.random.TraditionalRandomStrategy;
+import game.main.math.Vector2D;
+import game.main.tetromino.Tetromino;
 
 import javax.swing.*;
 import java.awt.*;

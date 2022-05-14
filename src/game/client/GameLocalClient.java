@@ -1,6 +1,7 @@
-package game;
+package game.client;
 
-import math.Vector2D;
+import game.main.TetrisPlayfield;
+import game.main.math.Vector2D;
 
 import javax.swing.*;
 import java.awt.*;

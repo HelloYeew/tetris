@@ -3,7 +3,7 @@ package server;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
-import math.Vector2D;
+import game.main.math.Vector2D;
 
 import javax.swing.*;
 import java.awt.*;
@@ -105,7 +105,6 @@ public class MainServer extends JFrame {
                     server.sendToTCP(connection.getID(), DELAYED_TICKS);
                     logTextArea.append("Player 2 connected\n");
                 } else {
-                    // TODO: If player get disconnected, reconnect and send the current game state.
                     // Server is full.
                     connection.close();
                     logTextArea.append("There are already two players connected.\n");
@@ -127,6 +126,8 @@ public class MainServer extends JFrame {
                         }
                     }).start();
                 }
+
+                // TODO: Sync tetromino pool
             }
 
             @Override

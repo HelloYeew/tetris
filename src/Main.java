@@ -1,5 +1,5 @@
-import game.GameLocalClient;
-import game.GameMultiplayerClient;
+import game.client.GameLocalClient;
+import game.client.GameMultiplayerClient;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,6 +57,8 @@ public class Main extends JFrame {
         bottomLabel.setHorizontalAlignment(SwingConstants.LEFT);
         bottomPanel.add(bottomLabel);
         add(bottomPanel, BorderLayout.SOUTH);
+
+        // TODO: Server status
 
         localGameButton.addActionListener(new ActionListener() {
             @Override

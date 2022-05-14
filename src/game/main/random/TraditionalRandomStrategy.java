@@ -1,7 +1,7 @@
-package game.random;
+package game.main.random;
 
-import game.tetromino.Tetromino;
-import game.tetromino.TetrominoType;
+import game.main.tetromino.Tetromino;
+import game.main.tetromino.TetrominoType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +50,10 @@ public class TraditionalRandomStrategy implements TetrominoRandomStrategy {
         return tetrominoList;
     }
 
+    /**
+     * Randomize the tetromino pool.
+     * @return a random tetromino pool.
+     */
     private List<Tetromino> randomizeTetrominoPool() {
         List<Tetromino> tempTetrominoPool = new java.util.ArrayList<>(defaultTetrominoPool);
         // randomize the tempTetrominoPool
@@ -62,6 +66,10 @@ public class TraditionalRandomStrategy implements TetrominoRandomStrategy {
         return tempTetrominoPool;
     }
 
+    /**
+     * Check if the current tetromino pool is empty. If it is, replace current tetromino pool with next tetromino pool.
+     * and re-randomize next tetromino pool.
+     */
     private void checkTetrominoPool() {
         if (currentTetrominoPool.size() == 0) {
             // If the currentTetrominoPool is empty, then the nextTetrominoPool is the currentTetrominoPool

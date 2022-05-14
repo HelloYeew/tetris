@@ -1,9 +1,10 @@
-package game;
+package game.client;
 
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-import math.Vector2D;
+import game.main.TetrisPlayfield;
+import game.main.math.Vector2D;
 import server.ControlDirection;
 import server.GameState;
 import server.MainServer;

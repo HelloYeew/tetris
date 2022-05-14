@@ -1,6 +1,6 @@
-package game.random;
+package game.main.random;
 
-import game.tetromino.Tetromino;
+import game.main.tetromino.Tetromino;
 
 import java.util.List;
 

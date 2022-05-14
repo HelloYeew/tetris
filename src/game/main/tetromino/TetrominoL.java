@@ -1,6 +1,6 @@
-package game.tetromino;
+package game.main.tetromino;
 
-import math.Vector2D;
+import game.main.math.Vector2D;
 
 import java.awt.*;
 import java.util.ArrayList;
