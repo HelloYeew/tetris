@@ -1,12 +1,12 @@
 package game.main.tetromino;
 
 import game.main.math.Vector2D;
+import game.main.tetromino.state.TetrominoState;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class TetrominoO implements Tetromino {
-
     private Color color = Color.YELLOW;
     private Vector2D origin;
     private ArrayList<Vector2D> positions;
@@ -33,7 +33,7 @@ public class TetrominoO implements Tetromino {
      */
     @Override
     public void rotate() {
-
+        // do nothing
     }
 
     /**
@@ -116,5 +116,25 @@ public class TetrominoO implements Tetromino {
     @Override
     public TetrominoType getType() {
         return TetrominoType.O;
+    }
+
+    /**
+     * Set the tetromino state to a new state
+     *
+     * @param state New state of the tetromino
+     */
+    @Override
+    public void setState(TetrominoState state) {
+        // do nothing
+    }
+
+    /**
+     * Get the tetromino state
+     *
+     * @return Current state of the tetromino
+     */
+    @Override
+    public TetrominoState getState() {
+        return null;
     }
 }

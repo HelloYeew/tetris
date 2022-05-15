@@ -126,6 +126,7 @@ public class GameLocalClient extends JFrame implements Observer {
                     case KeyEvent.VK_LEFT -> playfieldPlayer1.moveLeft();
                     case KeyEvent.VK_RIGHT -> playfieldPlayer1.moveRight();
                     case KeyEvent.VK_DOWN -> playfieldPlayer1.moveDown();
+                    case KeyEvent.VK_UP -> playfieldPlayer1.rotate();
                 }
                 playfieldPlayer1.isReceivedInput = true;
             } else {
@@ -137,6 +138,7 @@ public class GameLocalClient extends JFrame implements Observer {
                     case KeyEvent.VK_A -> playfieldPlayer2.moveLeft();
                     case KeyEvent.VK_D -> playfieldPlayer2.moveRight();
                     case KeyEvent.VK_S -> playfieldPlayer2.moveDown();
+                    case KeyEvent.VK_W -> playfieldPlayer2.rotate();
                 }
                 playfieldPlayer2.isReceivedInput = true;
             } else {
@@ -166,7 +168,8 @@ public class GameLocalClient extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (playfieldPlayer1.getCurrentTetromino().equals(playfieldPlayer2.getCurrentTetromino())) {
-            // This event fix the bug that tetromino will update twice since it has the same address
+            // This fix the playfield bug when tetromino has the same shape on both playfields and
+            // make the normal update the tetromino four times since it call twice.
             playfieldPlayer1.cleanCurrentTetrominoPositions();
             playfieldPlayer2.cleanCurrentTetrominoPositions();
             playfieldPlayer1.update();

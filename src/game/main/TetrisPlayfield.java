@@ -299,6 +299,9 @@ public class TetrisPlayfield extends JPanel {
         return false;
     }
 
+    /**
+     * Restart the game by set everything back to default
+     */
     public void restartGame() {
         randomStrategy = new TraditionalRandomStrategy();
         blocks = new Color[SIZE.x][SIZE.y];
@@ -313,5 +316,15 @@ public class TetrisPlayfield extends JPanel {
      */
     public Tetromino getCurrentTetromino() {
         return currentTetromino;
+    }
+
+    /**
+     * Rotate the current tetromino to next tetromino state.
+     */
+    public void rotate() {
+        cleanCurrentTetrominoPositions();
+        currentTetromino.rotate();
+        convertTetrominoToPixel();
+        repaint();
     }
 }

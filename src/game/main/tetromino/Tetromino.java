@@ -1,6 +1,7 @@
 package game.main.tetromino;
 
 import game.main.math.Vector2D;
+import game.main.tetromino.state.TetrominoState;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -71,4 +72,17 @@ public interface Tetromino {
      * @return int type of the tetromino
      */
     TetrominoType getType();
+
+    /**
+     * Set the tetromino state to a new state
+     *
+     * @param state New state of the tetromino
+     */
+    void setState(TetrominoState state);
+
+    /**
+     * Get the tetromino state
+     * @return Current state of the tetromino
+     */
+    TetrominoState getState();
 }
