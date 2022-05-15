@@ -183,19 +183,22 @@ public class GameMultiplayerClient extends JFrame implements Observer {
     class PlayerController extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
-            switch (e.getKeyCode()) {
-                case KeyEvent.VK_LEFT -> {
-                    ownPlayfield.moveLeft();
-                    client.sendTCP(ControlDirection.LEFT);
+            if (!ownPlayfield.isReceivedInput) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_LEFT -> {
+                        ownPlayfield.moveLeft();
+                        client.sendTCP(ControlDirection.LEFT);
+                    }
+                    case KeyEvent.VK_RIGHT -> {
+                        ownPlayfield.moveRight();
+                        client.sendTCP(ControlDirection.RIGHT);
+                    }
+                    case KeyEvent.VK_DOWN -> {
+                        ownPlayfield.moveDown();
+                        client.sendTCP(ControlDirection.DOWN);
+                    }
                 }
-                case KeyEvent.VK_RIGHT -> {
-                    ownPlayfield.moveRight();
-                    client.sendTCP(ControlDirection.RIGHT);
-                }
-                case KeyEvent.VK_DOWN -> {
-                    ownPlayfield.moveDown();
-                    client.sendTCP(ControlDirection.DOWN);
-                }
+                ownPlayfield.isReceivedInput = true;
             }
 
             if (DEBUG) {
@@ -233,6 +236,7 @@ public class GameMultiplayerClient extends JFrame implements Observer {
             observable.setRunning(false);
             debugWindow.update();
         }
+        ownPlayfield.isReceivedInput = false;
         repaint();
     }
 

@@ -116,14 +116,30 @@ public class GameLocalClient extends JFrame implements Observer {
     class PlayerController extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
-            switch (e.getKeyCode()) {
-                case KeyEvent.VK_LEFT -> playfieldPlayer1.moveLeft();
-                case KeyEvent.VK_RIGHT -> playfieldPlayer1.moveRight();
-                case KeyEvent.VK_DOWN -> playfieldPlayer1.moveDown();
-                case KeyEvent.VK_A -> playfieldPlayer2.moveLeft();
-                case KeyEvent.VK_D -> playfieldPlayer2.moveRight();
-                case KeyEvent.VK_S -> playfieldPlayer2.moveDown();
-                case KeyEvent.VK_SPACE -> pause();
+            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                pause();
+            }
+
+            if (!playfieldPlayer1.isReceivedInput) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_LEFT -> playfieldPlayer1.moveLeft();
+                    case KeyEvent.VK_RIGHT -> playfieldPlayer1.moveRight();
+                    case KeyEvent.VK_DOWN -> playfieldPlayer1.moveDown();
+                }
+                playfieldPlayer1.isReceivedInput = true;
+            } else {
+                System.out.println("Ignored player 1 input");
+            }
+
+            if (!playfieldPlayer2.isReceivedInput) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_A -> playfieldPlayer2.moveLeft();
+                    case KeyEvent.VK_D -> playfieldPlayer2.moveRight();
+                    case KeyEvent.VK_S -> playfieldPlayer2.moveDown();
+                }
+                playfieldPlayer2.isReceivedInput = true;
+            } else {
+                System.out.println("Ignored player 2 input");
             }
 
             if (DEBUG) {
@@ -165,6 +181,8 @@ public class GameLocalClient extends JFrame implements Observer {
         if (!isFocused() && observable.getTick() > 1) {
             pause();
         }
+        playfieldPlayer1.isReceivedInput = false;
+        playfieldPlayer2.isReceivedInput = false;
         repaint();
     }
 

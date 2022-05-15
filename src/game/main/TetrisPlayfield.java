@@ -42,6 +42,8 @@ public class TetrisPlayfield extends JPanel {
      */
     private int gameOverYPosition = 5;
 
+    public Boolean isReceivedInput = false;
+
     public TetrominoRandomStrategy randomStrategy = new TraditionalRandomStrategy();
 
     /**
