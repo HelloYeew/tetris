@@ -80,16 +80,30 @@ public class LocalDebugWindow extends JFrame {
     public void update() {
         String player1Detail = "";
         player1Detail += "Size : " + gameClient.playfieldPlayer1.SIZE + "\n";
+        player1Detail += "Origin : " + gameClient.playfieldPlayer1.getCurrentTetromino().getOrigin() + "\n";
         player1Detail += "Spawn location : " + gameClient.playfieldPlayer1.SPAWN_POSITION + "\n";
         player1Detail += "Current tetromino : " + gameClient.playfieldPlayer1.getCurrentTetromino().toString() + "\n";
-        player1Detail += "Tetromino position : " + gameClient.playfieldPlayer1.getCurrentTetromino().getPositions().toString();
+        player1Detail += "Tetromino position : " + gameClient.playfieldPlayer1.getCurrentTetromino().getPositions().toString() + "\n";
+        // Since Java not have null object pattern, we need to manually check if the current tetromino is null or not.
+        if (gameClient.playfieldPlayer1.getCurrentTetromino().getState() == null) {
+            player1Detail += "Tetromino state : null\n";
+        } else {
+            player1Detail += "Tetromino state : " + (gameClient.playfieldPlayer1.getCurrentTetromino().getState().toString());
+        }
         player1Info.setText(player1Detail);
 
         String player2Detail = "";
         player2Detail += "Size : " + gameClient.playfieldPlayer2.SIZE + "\n";
+        player2Detail += "Origin : " + gameClient.playfieldPlayer1.getCurrentTetromino().getOrigin() + "\n";
         player2Detail += "Spawn location : " + gameClient.playfieldPlayer2.SPAWN_POSITION + "\n";
         player2Detail += "Current tetromino : " + gameClient.playfieldPlayer2.getCurrentTetromino().toString() + "\n";
-        player2Detail += "Tetromino position : " + gameClient.playfieldPlayer2.getCurrentTetromino().getPositions().toString();
+        player2Detail += "Tetromino position : " + gameClient.playfieldPlayer2.getCurrentTetromino().getPositions().toString() + "\n";
+        // Since Java not have null object pattern, we need to manually check if the current tetromino is null or not.
+        if (gameClient.playfieldPlayer2.getCurrentTetromino().getState() == null) {
+            player2Detail += "Tetromino state : null\n";
+        } else {
+            player2Detail += "Tetromino state : " + (gameClient.playfieldPlayer2.getCurrentTetromino().getState().toString());
+        }
         player2Info.setText(player2Detail);
 
         String gameStatusDetail = "";
