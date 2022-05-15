@@ -118,4 +118,14 @@ public class TetrominoI implements Tetromino {
     public String toString() {
         return "I";
     }
+
+    /**
+     * Get the type of the tetromino
+     *
+     * @return int type of the tetromino
+     */
+    @Override
+    public TetrominoType getType() {
+        return TetrominoType.I;
+    }
 }

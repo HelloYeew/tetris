@@ -65,4 +65,10 @@ public interface Tetromino {
      * @return String name of this tetromino
      */
     String toString();
+
+    /**
+     * Get the type of the tetromino
+     * @return int type of the tetromino
+     */
+    TetrominoType getType();
 }
