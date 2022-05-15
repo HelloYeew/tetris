@@ -114,6 +114,18 @@ public class TetrisPlayfield extends JPanel {
     }
 
     /**
+     * Update the playfield without call the update method of the tetromino.
+     * <br>
+     * This method is made to fix the playfield bug that the tetromino that has a same shape has the same memory address
+     * and when call normal update method, the tetromino will be update twice.
+     */
+    public void paintTetromino() {
+        convertTetrominoToPixel();
+        repaint();
+        checkCollision();
+    }
+
+    /**
      * Check that the current tetromino is collide with other tetromino or collide with the ground.
      *
      * If collided, it will create a new tetromino.
@@ -155,7 +167,7 @@ public class TetrisPlayfield extends JPanel {
     /**
      * Remove the old positions of tetromino that's painted on the playfield.
      */
-    private void cleanCurrentTetrominoPositions() {
+    public void cleanCurrentTetrominoPositions() {
         for (Vector2D position : currentTetromino.getPositions()) {
             blocks[position.x][position.y] = null;
         }

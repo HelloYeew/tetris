@@ -8,7 +8,6 @@ import java.util.List;
  * A strategy for choosing a random tetromino from a list of tetrominos.
  */
 public interface TetrominoRandomStrategy {
-
     /**
      * Returns a next tetromino for insert in the board.
      * @return a next tetromino for insert in the board.

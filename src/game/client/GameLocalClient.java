@@ -165,11 +165,18 @@ public class GameLocalClient extends JFrame implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
-        // TODO: If tetromino are the same, it will update both players
-        // It's because the tetromino has the same address so when call update, it will update both players
-        // So it's update four times
-        playfieldPlayer1.update();
-        playfieldPlayer2.update();
+        if (playfieldPlayer1.getCurrentTetromino().equals(playfieldPlayer2.getCurrentTetromino())) {
+            // This event fix the bug that tetromino will update twice since it has the same address
+            playfieldPlayer1.cleanCurrentTetrominoPositions();
+            playfieldPlayer2.cleanCurrentTetrominoPositions();
+            playfieldPlayer1.update();
+            playfieldPlayer1.paintTetromino();
+            playfieldPlayer2.paintTetromino();
+            // TODO: The same block when the KeyListener is click from both players, it will create some `ghost` block
+        } else {
+            playfieldPlayer1.update();
+            playfieldPlayer2.update();
+        }
         debugWindow.update();
         if (playfieldPlayer1.isGameOver() || playfieldPlayer2.isGameOver()) {
             statusTextField.setForeground(Color.RED);

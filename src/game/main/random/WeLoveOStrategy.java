@@ -7,7 +7,12 @@ import game.main.tetromino.TetrominoO;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReturnSameStrategy implements TetrominoRandomStrategy {
+/**
+ * Return every tetromino as O tetromino.
+ *
+ * Mainly used for testing.
+ */
+public class WeLoveOStrategy implements TetrominoRandomStrategy {
     /**
      * Returns a next tetromino for insert in the board.
      *
