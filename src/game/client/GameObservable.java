@@ -110,4 +110,8 @@ public class GameObservable extends Observable {
     public int getTick() {
         return tick;
     }
+
+    public void restartGame() {
+        this.tick = 0;
+    }
 }

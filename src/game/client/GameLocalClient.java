@@ -116,8 +116,9 @@ public class GameLocalClient extends JFrame implements Observer {
     class PlayerController extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                pause();
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_SPACE -> pause();
+                case 192 -> restartGame();
             }
 
             if (!playfieldPlayer1.isReceivedInput) {
@@ -219,6 +220,16 @@ public class GameLocalClient extends JFrame implements Observer {
         }
         // When the game is paused, the game thread is stopped update due to running status, so we need to manually update
         // some element that need to be updated when game paused too
+        debugWindow.update();
+    }
+
+    public void restartGame() {
+        playfieldPlayer1.restartGame();
+        playfieldPlayer2.restartGame();
+        observable.restartGame();
+        statusTextField.setForeground(Color.BLACK);
+        statusTextField.setText("");
+        observable.setRunning(true);
         debugWindow.update();
     }
 

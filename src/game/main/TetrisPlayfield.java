@@ -287,6 +287,13 @@ public class TetrisPlayfield extends JPanel {
         return false;
     }
 
+    public void restartGame() {
+        randomStrategy = new TraditionalRandomStrategy();
+        blocks = new Color[SIZE.x][SIZE.y];
+        createNewTetromino();
+        convertTetrominoToPixel();
+    }
+
     /**
      * Get the current tetromino that player is controlling
      *
