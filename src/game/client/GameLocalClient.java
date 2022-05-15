@@ -164,6 +164,9 @@ public class GameLocalClient extends JFrame implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
+        // TODO: If tetromino are the same, it will update both players
+        // It's because the tetromino has the same address so when call update, it will update both players
+        // So it's update four times
         playfieldPlayer1.update();
         playfieldPlayer2.update();
         debugWindow.update();
