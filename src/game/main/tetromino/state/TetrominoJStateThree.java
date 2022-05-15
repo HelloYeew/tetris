@@ -16,7 +16,7 @@ public class TetrominoJStateThree implements TetrominoState, TetrominoIState {
      */
     @Override
     public void rotate(Tetromino tetromino) {
-        tetromino.setState(new TetrominoJStateThree());
+        tetromino.setState(new TetrominoJStateOne());
         Vector2D origin = tetromino.getOrigin();
         ArrayList<Vector2D> newPositions = new ArrayList<>();
         newPositions.add(new Vector2D(origin.x, origin.y));

@@ -2,6 +2,7 @@ package game.main.tetromino;
 
 import game.main.math.Vector2D;
 import game.main.tetromino.state.TetrominoState;
+import game.main.tetromino.state.TetrominoTStateOne;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ public class TetrominoT implements Tetromino {
     private Color color = Color.MAGENTA;
     private Vector2D origin;
     private ArrayList<Vector2D> positions;
-    private TetrominoState state;
+    private TetrominoState state = new TetrominoTStateOne();
 
     public TetrominoT(Vector2D origin) {
         this.origin = origin;
