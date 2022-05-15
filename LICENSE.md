@@ -21,6 +21,6 @@
 3. If you get full score through modification this and send as a final project for your group, look this as a GOOD fucking reference, go code your final project with this open on the other side of the screen. Only a dick would copy this work and make it to pass this course with a full score and don't know fucking thing about the original work and the fucking design pattern.
 
 4. Code is provided with no warranty. Using somebody else's code and bitching when it goes wrong makes
-   you a DONKEY dick. Fix the problem yourself. A non-dick would submit the fix back or submit a [bug report,](https://www.chiark.greenend.org.uk/~sgtatham/bugs.html) but I know you are not do it because you don't want to get F for this course.
+   you a DONKEY dick. Fix the problem yourself. A non-dick would submit the fix back or submit a [bug report](https://www.chiark.greenend.org.uk/~sgtatham/bugs.html), but I know you are not do it because you don't want other to know that you are copying this. But if you do it what the fuck you are doing?
 
 5. If you copy this for your final project in SSD 2022, what the fuck do you want? You're a bigger dick that you think. Do your work or get fucked.
