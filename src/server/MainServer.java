@@ -59,7 +59,9 @@ public class MainServer extends JFrame {
         // Add top panel
         JPanel topPanel = new JPanel();
         JButton pauseButton = new JButton("Pause");
+        JButton cleanConnectionButton = new JButton("Clean Connections");
         topPanel.add(pauseButton);
+        topPanel.add(cleanConnectionButton);
         add(topPanel, BorderLayout.NORTH);
 
         // Add scrollable text area for logging.
@@ -138,6 +140,12 @@ public class MainServer extends JFrame {
         });
 
         pauseButton.addActionListener(e -> server.sendToAllTCP(GameState.PAUSE));
+        cleanConnectionButton.addActionListener(e -> {
+            server.sendToAllTCP(GameState.DISCONNECT);
+            player1connection = null;
+            player2connection = null;
+            logTextArea.append("Cleaned connection\n");
+        });
     }
 
     /**

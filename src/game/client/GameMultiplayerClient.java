@@ -101,16 +101,23 @@ public class GameMultiplayerClient extends JFrame implements Observer {
                         observable.start();
                     } else if (gameState == GameState.PAUSE) {
                         // Pause the game
-                        pause();
+                        if (observable.getRunning()) {
+                            pause();
+                        }
+                    } else if (gameState == GameState.DISCONNECT) {
+                        // Disconnect from server
+                        JOptionPane.showMessageDialog(GameMultiplayerClient.this, "You have been disconnected from the server.");
+                        observable.setRunning(false);
+                        client.close();
+                        System.exit(0);
                     }
                 } else if (object instanceof ControlDirection controlDirection) {
                     // Server sent a new control direction from opponent
-                    if (controlDirection == ControlDirection.LEFT) {
-                        opponentPlayfield.moveLeft();
-                    } else if (controlDirection == ControlDirection.RIGHT) {
-                        opponentPlayfield.moveRight();
-                    } else if (controlDirection == ControlDirection.DOWN) {
-                        opponentPlayfield.moveDown();
+                    switch (controlDirection) {
+                        case LEFT -> opponentPlayfield.moveLeft();
+                        case RIGHT -> opponentPlayfield.moveRight();
+                        case DOWN -> opponentPlayfield.moveDown();
+                        case UP -> opponentPlayfield.rotate();
                     }
                     System.out.println("Received control direction: " + controlDirection);
                 }
@@ -196,6 +203,10 @@ public class GameMultiplayerClient extends JFrame implements Observer {
                     case KeyEvent.VK_DOWN -> {
                         ownPlayfield.moveDown();
                         client.sendTCP(ControlDirection.DOWN);
+                    }
+                    case KeyEvent.VK_UP -> {
+                        ownPlayfield.rotate();
+                        client.sendTCP(ControlDirection.UP);
                     }
                 }
                 ownPlayfield.isReceivedInput = true;

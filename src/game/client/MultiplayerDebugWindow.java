@@ -83,6 +83,12 @@ public class MultiplayerDebugWindow extends JFrame {
         player1Detail += "Spawn location : " + gameClient.ownPlayfield.SPAWN_POSITION + "\n";
         player1Detail += "Current tetromino : " + gameClient.ownPlayfield.getCurrentTetromino().toString() + "\n";
         player1Detail += "Tetromino position : " + gameClient.ownPlayfield.getCurrentTetromino().getPositions().toString();
+        // Since Java not have null object pattern, we need to manually check if the current tetromino is null or not.
+        if (gameClient.ownPlayfield.getCurrentTetromino().getState() == null) {
+            player1Detail += "Tetromino state : null\n";
+        } else {
+            player1Detail += "Tetromino state : " + (gameClient.ownPlayfield.getCurrentTetromino().getState().toString());
+        }
         player1Info.setText(player1Detail);
 
         String player2Detail = "";
@@ -90,6 +96,12 @@ public class MultiplayerDebugWindow extends JFrame {
         player2Detail += "Spawn location : " + gameClient.opponentPlayfield.SPAWN_POSITION + "\n";
         player2Detail += "Current tetromino : " + gameClient.opponentPlayfield.getCurrentTetromino().toString() + "\n";
         player2Detail += "Tetromino position : " + gameClient.opponentPlayfield.getCurrentTetromino().getPositions().toString();
+        // Since Java not have null object pattern, we need to manually check if the current tetromino is null or not.
+        if (gameClient.opponentPlayfield.getCurrentTetromino().getState() == null) {
+            player2Detail += "Tetromino state : null\n";
+        } else {
+            player2Detail += "Tetromino state : " + (gameClient.opponentPlayfield.getCurrentTetromino().getState().toString());
+        }
         player2Info.setText(player2Detail);
 
         String gameStatusDetail = "";
