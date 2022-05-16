@@ -96,7 +96,10 @@ public class TetrisPlayfield extends JPanel {
     private void convertTetrominoToPixel() {
         cleanCurrentTetrominoPositions();
         for (Vector2D position : currentTetromino.getPositions()) {
-            blocks[position.x][position.y] = currentTetromino.getColor();
+            // check if the position is not out of bound
+            if (position.x >= 0 && position.x < SIZE.x && position.y >= 0 && position.y < SIZE.y) {
+                blocks[position.x][position.y] = currentTetromino.getColor();
+            }
         }
     }
 
@@ -171,7 +174,10 @@ public class TetrisPlayfield extends JPanel {
      */
     public void cleanCurrentTetrominoPositions() {
         for (Vector2D position : currentTetromino.getPositions()) {
-            blocks[position.x][position.y] = null;
+            // check if the block is not out of bound
+            if (position.x >= 0 && position.x < SIZE.x && position.y >= 0 && position.y < SIZE.y) {
+                blocks[position.x][position.y] = null;
+            }
         }
         repaint();
     }
@@ -190,6 +196,7 @@ public class TetrisPlayfield extends JPanel {
             convertTetrominoToPixel();
             repaint();
         }
+        currentTetromino.setOrigin(currentTetromino.getOrigin().add(new Vector2D(1, 0)));
     }
 
     /**
@@ -206,6 +213,7 @@ public class TetrisPlayfield extends JPanel {
             convertTetrominoToPixel();
             repaint();
         }
+        currentTetromino.setOrigin(currentTetromino.getOrigin().add(new Vector2D(-1, 0)));
     }
 
     /**
@@ -225,6 +233,7 @@ public class TetrisPlayfield extends JPanel {
             convertTetrominoToPixel();
             repaint();
         }
+        currentTetromino.setOrigin(currentTetromino.getOrigin().add(new Vector2D(0, 1)));
     }
 
     /**

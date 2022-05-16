@@ -78,4 +78,8 @@ public class Vector2D {
     public static Vector2D clone(Vector2D vector2D) {
         return new Vector2D(vector2D.x, vector2D.y);
     }
+
+    public Vector2D add(Vector2D vector2D) {
+        return new Vector2D(x + vector2D.x, y + vector2D.y);
+    }
 }
