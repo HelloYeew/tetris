@@ -85,4 +85,10 @@ public interface Tetromino {
      * @return Current state of the tetromino
      */
     TetrominoState getState();
+
+    /**
+     * Get the next position of the next state of the tetromino
+     * @return Next position of the next state of the tetromino
+     */
+    ArrayList<Vector2D> getNextStatePosition();
 }

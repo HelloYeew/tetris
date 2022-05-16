@@ -8,6 +8,7 @@ import game.main.tetromino.Tetromino;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Playfield for player.
@@ -324,8 +325,30 @@ public class TetrisPlayfield extends JPanel {
      */
     public void rotate() {
         cleanCurrentTetrominoPositions();
+        if (checkCanBeRotated(currentTetromino.getNextStatePosition())) {
+            currentTetromino.rotate();
+        } else {
+            System.out.println("Cannot rotate");
+        }
         currentTetromino.rotate();
         convertTetrominoToPixel();
         repaint();
+    }
+
+    public Boolean checkCanBeRotated(ArrayList<Vector2D> newPositions) {
+        // Can be rotate when the new position is not out of bound and there is no block in the new position
+        // Check if the new position is out of bound
+        for (Vector2D position : newPositions) {
+            if (position.x < 0 || position.x >= SIZE.x || position.y < 0 || position.y >= SIZE.y) {
+                return false;
+            }
+        }
+        // Check if there is any block in the new position
+        for (Vector2D position : newPositions) {
+            if (blocks[position.x][position.y] != null) {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -17,7 +17,7 @@ public class TetrominoI implements Tetromino {
     private TetrominoState state = new TetrominoIHorizontalState();
 
     public TetrominoI(Vector2D origin) {
-        this.origin = new Vector2D(3,3);
+        this.origin = origin;
         generateBlock();
     }
 
@@ -141,5 +141,18 @@ public class TetrominoI implements Tetromino {
     @Override
     public TetrominoState getState() {
         return state;
+    }
+
+    /**
+     * Get the next position of the next state of the tetromino
+     *
+     * @return Next position of the next state of the tetromino
+     */
+    @Override
+    public ArrayList<Vector2D> getNextStatePosition() {
+        TetrominoI newTetromino = new TetrominoI(origin);
+        newTetromino.setPositions(new ArrayList<>(positions));
+        newTetromino.getState().rotate(newTetromino);
+        return newTetromino.getPositions();
     }
 }

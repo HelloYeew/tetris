@@ -140,4 +140,17 @@ public class TetrominoJ implements Tetromino {
     public TetrominoState getState() {
         return state;
     }
+
+    /**
+     * Get the next position of the next state of the tetromino
+     *
+     * @return Next position of the next state of the tetromino
+     */
+    @Override
+    public ArrayList<Vector2D> getNextStatePosition() {
+        TetrominoI newTetromino = new TetrominoI(origin);
+        newTetromino.setPositions(new ArrayList<>(positions));
+        newTetromino.getState().rotate(newTetromino);
+        return newTetromino.getPositions();
+    }
 }
