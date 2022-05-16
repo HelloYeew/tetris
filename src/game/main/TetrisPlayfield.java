@@ -194,8 +194,8 @@ public class TetrisPlayfield extends JPanel {
             }
             convertTetrominoToPixel();
             repaint();
+            currentTetromino.setOrigin(currentTetromino.getOrigin().add(new Vector2D(1, 0)));
         }
-        currentTetromino.setOrigin(currentTetromino.getOrigin().add(new Vector2D(1, 0)));
     }
 
     /**
@@ -211,8 +211,8 @@ public class TetrisPlayfield extends JPanel {
             }
             convertTetrominoToPixel();
             repaint();
+            currentTetromino.setOrigin(currentTetromino.getOrigin().add(new Vector2D(-1, 0)));
         }
-        currentTetromino.setOrigin(currentTetromino.getOrigin().add(new Vector2D(-1, 0)));
     }
 
     /**
