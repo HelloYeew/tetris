@@ -45,8 +45,8 @@ public class TetrominoS implements Tetromino {
     public void update() {
         for (Vector2D position : positions) {
             position.y += 1;
-            origin.y += 1;
         }
+        origin.y += 1;
     }
 
     /**
