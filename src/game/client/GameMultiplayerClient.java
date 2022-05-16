@@ -104,10 +104,8 @@ public class GameMultiplayerClient extends JFrame implements Observer {
                         statusTextField.setText("");
                         observable.start();
                     } else if (gameState == GameState.PAUSE) {
-                        // Pause the game
-                        if (observable.getRunning()) {
-                            pause();
-                        }
+                        // Pause the game{
+                        pause();
                     } else if (gameState == GameState.DISCONNECT) {
                         // Disconnect from server
                         JOptionPane.showMessageDialog(GameMultiplayerClient.this, "You have been disconnected from the server.");
@@ -310,4 +308,6 @@ public class GameMultiplayerClient extends JFrame implements Observer {
         GameMultiplayerClient gameClient = new GameMultiplayerClient();
         gameClient.start();
     }
+
+    // TODO: Sync progress on bug fix from local client
 }

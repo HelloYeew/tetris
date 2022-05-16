@@ -1,6 +1,5 @@
 package game.main;
 
-import game.main.random.NormalStrategy;
 import game.main.random.TetrominoRandomStrategy;
 import game.main.random.TraditionalRandomStrategy;
 import game.main.math.Vector2D;
