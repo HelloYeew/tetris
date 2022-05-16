@@ -116,7 +116,6 @@ public class GameMultiplayerClient extends JFrame implements Observer {
                     switch (controlDirection) {
                         case LEFT -> opponentPlayfield.moveLeft();
                         case RIGHT -> opponentPlayfield.moveRight();
-                        case DOWN -> opponentPlayfield.moveDown();
                         case UP -> opponentPlayfield.rotate();
                     }
                     System.out.println("Received control direction: " + controlDirection);
@@ -199,10 +198,6 @@ public class GameMultiplayerClient extends JFrame implements Observer {
                     case KeyEvent.VK_RIGHT -> {
                         ownPlayfield.moveRight();
                         client.sendTCP(ControlDirection.RIGHT);
-                    }
-                    case KeyEvent.VK_DOWN -> {
-                        ownPlayfield.moveDown();
-                        client.sendTCP(ControlDirection.DOWN);
                     }
                     case KeyEvent.VK_UP -> {
                         ownPlayfield.rotate();

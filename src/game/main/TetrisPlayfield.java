@@ -3,7 +3,6 @@ package game.main;
 import game.main.random.TetrominoRandomStrategy;
 import game.main.random.TraditionalRandomStrategy;
 import game.main.math.Vector2D;
-import game.main.random.WeLoveOStrategy;
 import game.main.tetromino.Tetromino;
 
 import javax.swing.*;
@@ -217,26 +216,6 @@ public class TetrisPlayfield extends JPanel {
     }
 
     /**
-     * Move down the tetromino quicker than normal drop.
-     *
-     * This method will check on collision too to make it bind a new tetromino if it's collide with another one or go to the bottom of the playfield.
-     *
-     * This method need to recall almost all the paint method due to the frame stuttering.
-     */
-    public void moveDown() {
-        // TODO: The update of the tetromino position has conflict with the main update loop. Need to fix it.
-        if (currentTetromino.getPositions().stream().allMatch(position -> position.y < SIZE.y - 2) && !checkCollision()) {
-            cleanCurrentTetrominoPositions();
-            for (Vector2D position : currentTetromino.getPositions()) {
-                position.y++;
-            }
-            convertTetrominoToPixel();
-            repaint();
-        }
-        currentTetromino.setOrigin(currentTetromino.getOrigin().add(new Vector2D(0, 1)));
-    }
-
-    /**
      * Paint the grid
      * @param g the graphics context in which to paint
      */
@@ -349,12 +328,14 @@ public class TetrisPlayfield extends JPanel {
         // Check if the new position is out of bound
         for (Vector2D position : newPositions) {
             if (position.x < 0 || position.x >= SIZE.x || position.y < 0 || position.y >= SIZE.y) {
+                System.out.println("Cannot rotate due to out of bound");
                 return false;
             }
         }
         // Check if there is any block in the new position
         for (Vector2D position : newPositions) {
             if (blocks[position.x][position.y] != null) {
+                System.out.println("Cannot rotate due to block in the new position");
                 return false;
             }
         }
