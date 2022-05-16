@@ -1,5 +1,6 @@
 package game.main;
 
+import game.main.random.NormalStrategy;
 import game.main.random.TetrominoRandomStrategy;
 import game.main.random.TraditionalRandomStrategy;
 import game.main.math.Vector2D;
@@ -45,7 +46,7 @@ public class TetrisPlayfield extends JPanel {
 
     public Boolean isReceivedInput = false;
 
-    public TetrominoRandomStrategy randomStrategy = new TraditionalRandomStrategy();
+    public TetrominoRandomStrategy randomStrategy = new NormalStrategy();
 
     /**
      * Initialize the playfield with the given size.

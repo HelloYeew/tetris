@@ -227,19 +227,8 @@ public class GameMultiplayerClient extends JFrame implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
-        if (ownPlayfield.getCurrentTetromino().equals(opponentPlayfield.getCurrentTetromino())) {
-            // This fix the playfield bug when tetromino has the same shape on both playfields and
-            // make the normal update the tetromino four times since it call twice.
-            ownPlayfield.cleanCurrentTetrominoPositions();
-            opponentPlayfield.cleanCurrentTetrominoPositions();
-            ownPlayfield.update();
-            ownPlayfield.paintTetromino();
-            opponentPlayfield.paintTetromino();
-        } else {
-            System.out.println("Tetromino are different");
-            ownPlayfield.update();
-            opponentPlayfield.update();
-        }
+        ownPlayfield.update();
+        opponentPlayfield.update();
         debugWindow.update();
         if (ownPlayfield.isGameOver() || opponentPlayfield.isGameOver()) {
             statusTextField.setForeground(Color.RED);
