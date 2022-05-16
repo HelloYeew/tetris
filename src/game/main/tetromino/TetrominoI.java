@@ -17,7 +17,7 @@ public class TetrominoI implements Tetromino {
     private TetrominoState state = new TetrominoIHorizontalState();
 
     public TetrominoI(Vector2D origin) {
-        this.origin = origin;
+        this.origin = new Vector2D(3,3);
         generateBlock();
     }
 
@@ -48,6 +48,7 @@ public class TetrominoI implements Tetromino {
     public void update() {
         for (Vector2D position : positions) {
             position.y += 1;
+            origin.y += 1;
         }
     }
 

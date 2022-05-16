@@ -161,7 +161,7 @@ public class TetrisPlayfield extends JPanel {
      */
     private void createNewTetromino() {
         Tetromino nextTetromino = randomStrategy.getNextTetromino();
-        nextTetromino.setOrigin(SPAWN_POSITION);
+        nextTetromino.setOrigin(Vector2D.clone(SPAWN_POSITION));
         currentTetromino = nextTetromino;
     }
 

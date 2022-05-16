@@ -67,4 +67,15 @@ public class Vector2D {
     public String toString() {
         return "(" + x + ", " + y + ")";
     }
+
+    /**
+     * Clone the position to a new one
+     * <br>
+     * This method is used to avoid reference and some memory position on the same object problem
+     * @param vector2D The position to clone
+     * @return A new position that is a clone of the given one
+     */
+    public static Vector2D clone(Vector2D vector2D) {
+        return new Vector2D(vector2D.x, vector2D.y);
+    }
 }
