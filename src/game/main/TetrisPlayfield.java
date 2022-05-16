@@ -46,13 +46,14 @@ public class TetrisPlayfield extends JPanel {
 
     public Boolean isReceivedInput = false;
 
-    public TetrominoRandomStrategy randomStrategy = new NormalStrategy();
+    public TetrominoRandomStrategy randomStrategy;
 
     /**
      * Initialize the playfield with the given size.
      * @param size the size of the playfield in Vector2D
      */
-    public TetrisPlayfield(Vector2D size) {
+    public TetrisPlayfield(Vector2D size, TetrominoRandomStrategy randomStrategy) {
+        this.randomStrategy = randomStrategy;
         this.SIZE = size;
         setBackground(Color.BLACK);
         setPreferredSize(new Dimension(BLOCK_SIZE * size.x, BLOCK_SIZE * size.y));

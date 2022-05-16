@@ -2,6 +2,7 @@ package game.client;
 
 import game.main.TetrisPlayfield;
 import game.main.math.Vector2D;
+import game.main.random.TraditionalRandomStrategy;
 
 import javax.swing.*;
 import java.awt.*;
@@ -85,8 +86,8 @@ public class GameLocalClient extends JFrame implements Observer {
 
         // Add mainPanel and its components at the center of the frame
         JPanel mainPanel = new JPanel();
-        playfieldPlayer1 = new TetrisPlayfield(PLAYFIELD_SIZE);
-        playfieldPlayer2 = new TetrisPlayfield(PLAYFIELD_SIZE);
+        playfieldPlayer1 = new TetrisPlayfield(PLAYFIELD_SIZE, new TraditionalRandomStrategy());
+        playfieldPlayer2 = new TetrisPlayfield(PLAYFIELD_SIZE, new TraditionalRandomStrategy());
         JPanel player1Panel = new JPanel();
         JPanel player2Panel = new JPanel();
         player1Panel.setLayout(new BoxLayout(player1Panel, BoxLayout.Y_AXIS));

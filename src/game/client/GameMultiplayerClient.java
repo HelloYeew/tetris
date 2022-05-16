@@ -5,6 +5,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import game.main.TetrisPlayfield;
 import game.main.math.Vector2D;
+import game.main.random.RandomStrategyEnum;
 import server.ControlDirection;
 import server.GameState;
 import server.MainServer;
@@ -66,6 +67,8 @@ public class GameMultiplayerClient extends JFrame implements Observer {
      */
     private Client client;
 
+    private RandomStrategyEnum randomStrategy;
+
     /**
      * Create a new game with necessary components
      */
@@ -81,17 +84,18 @@ public class GameMultiplayerClient extends JFrame implements Observer {
         client.getKryo().register(Vector2D.class);
         client.getKryo().register(ControlDirection.class);
         client.getKryo().register(GameState.class);
+        client.getKryo().register(RandomStrategyEnum.class);
         client.addListener(new Listener() {
             @Override
             public void received(Connection connection, Object object) {
                 super.received(connection, object);
-                if (object instanceof Vector2D) {
+                if (object instanceof Vector2D vector2D) {
                     // Server sent a new playfield size
-                    playfieldSize = (Vector2D) object;
+                    playfieldSize = vector2D;
                     System.out.println("Received new playfield size: " + playfieldSize);
-                } else if (object instanceof Integer) {
+                } else if (object instanceof Integer integer) {
                     // Server sent a delayed tick
-                    delayedTick = (Integer) object;
+                    delayedTick = integer;
                     System.out.println("Received delayed tick: " + delayedTick);
                 } else if (object instanceof GameState gameState) {
                     // Server sent a new game state
@@ -119,6 +123,10 @@ public class GameMultiplayerClient extends JFrame implements Observer {
                         case UP -> opponentPlayfield.rotate();
                     }
                     System.out.println("Received control direction: " + controlDirection);
+                } else if (object instanceof RandomStrategyEnum randomStrategyEnum) {
+                    // Server sent an initial random strategy for playfield
+                    randomStrategy = randomStrategyEnum;
+                    System.out.println("Received random strategy: " + randomStrategy);
                 }
             }
 
@@ -164,8 +172,9 @@ public class GameMultiplayerClient extends JFrame implements Observer {
 
         // Add mainPanel and its components at the center of the frame
         JPanel mainPanel = new JPanel();
-        ownPlayfield = new TetrisPlayfield(playfieldSize);
-        opponentPlayfield = new TetrisPlayfield(playfieldSize);
+        ownPlayfield = new TetrisPlayfield(playfieldSize, RandomStrategyEnum.convertToClass(randomStrategy));
+        opponentPlayfield = new TetrisPlayfield(playfieldSize, RandomStrategyEnum.convertToClass(randomStrategy));
+        System.out.println(ownPlayfield.randomStrategy);
         JPanel ownPanel = new JPanel();
         JPanel opponentPanel = new JPanel();
         ownPanel.setLayout(new BoxLayout(ownPanel, BoxLayout.Y_AXIS));

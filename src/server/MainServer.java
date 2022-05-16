@@ -4,6 +4,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import game.main.math.Vector2D;
+import game.main.random.RandomStrategyEnum;
 
 import javax.swing.*;
 import java.awt.*;
@@ -47,6 +48,8 @@ public class MainServer extends JFrame {
      */
     private Connection player2connection;
 
+    public RandomStrategyEnum randomStrategy = RandomStrategyEnum.Normal;
+
     /**
      * Initialize the server and its GUI.
      */
@@ -75,6 +78,7 @@ public class MainServer extends JFrame {
         server.getKryo().register(Vector2D.class);
         server.getKryo().register(ControlDirection.class);
         server.getKryo().register(GameState.class);
+        server.getKryo().register(RandomStrategyEnum.class);
         server.addListener(new Listener() {
             @Override
             public void received(Connection connection, Object object) {
@@ -99,12 +103,14 @@ public class MainServer extends JFrame {
                     player1connection = connection;
                     server.sendToTCP(connection.getID(), PLAYFIELD_SIZE);
                     server.sendToTCP(connection.getID(), DELAYED_TICKS);
+                    server.sendToTCP(connection.getID(), randomStrategy);
                     logTextArea.append("Player 1 connected\n");
                 } else if (player1connection != null && player2connection == null) {
                     // This is the second player.
                     player2connection = connection;
                     server.sendToTCP(connection.getID(), PLAYFIELD_SIZE);
                     server.sendToTCP(connection.getID(), DELAYED_TICKS);
+                    server.sendToTCP(connection.getID(), randomStrategy);
                     logTextArea.append("Player 2 connected\n");
                 } else {
                     // Server is full.
@@ -129,7 +135,7 @@ public class MainServer extends JFrame {
                     }).start();
                 }
 
-                // TODO: Sync tetromino pool
+                // TODO: Current can play with normal strategy (not shuffle) but we need to implement the shuffle strategy too.
             }
 
             @Override
