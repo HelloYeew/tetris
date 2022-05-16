@@ -3,6 +3,7 @@ package game.main;
 import game.main.random.TetrominoRandomStrategy;
 import game.main.random.TraditionalRandomStrategy;
 import game.main.math.Vector2D;
+import game.main.random.WeLoveOStrategy;
 import game.main.tetromino.Tetromino;
 
 import javax.swing.*;

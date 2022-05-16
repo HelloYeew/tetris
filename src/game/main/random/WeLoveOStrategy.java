@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Return every tetromino as O tetromino.
+ * Return every tetromino as O tetromino because we love O.
  *
- * Mainly used for testing.
+ * Kid tueng kon bon fah.
  */
 public class WeLoveOStrategy implements TetrominoRandomStrategy {
     /**

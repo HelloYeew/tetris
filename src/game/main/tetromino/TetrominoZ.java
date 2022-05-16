@@ -35,7 +35,7 @@ public class TetrominoZ implements Tetromino {
      */
     @Override
     public void rotate() {
-
+        state.rotate(this);
     }
 
     /**
