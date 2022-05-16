@@ -168,6 +168,7 @@ public class GameLocalClient extends JFrame implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
+        // TODO: Tetromino still update Y position 4 times per tick
         playfieldPlayer1.update();
         playfieldPlayer2.update();
         debugWindow.update();
