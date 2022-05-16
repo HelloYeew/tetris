@@ -118,6 +118,7 @@ public class GameLocalClient extends JFrame implements Observer {
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_SPACE -> pause();
+                // 192 is the unicode for the grave accent
                 case 192 -> restartGame();
             }
 
@@ -167,19 +168,8 @@ public class GameLocalClient extends JFrame implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
-        if (playfieldPlayer1.getCurrentTetromino().equals(playfieldPlayer2.getCurrentTetromino())) {
-            // This fix the playfield bug when tetromino has the same shape on both playfields and
-            // make the normal update the tetromino four times since it call twice.
-            playfieldPlayer1.cleanCurrentTetrominoPositions();
-            playfieldPlayer2.cleanCurrentTetrominoPositions();
-            playfieldPlayer1.update();
-            playfieldPlayer1.paintTetromino();
-            playfieldPlayer2.paintTetromino();
-            // TODO: The same block when the KeyListener is click from both players, it will create some `ghost` block
-        } else {
-            playfieldPlayer1.update();
-            playfieldPlayer2.update();
-        }
+        playfieldPlayer1.update();
+        playfieldPlayer2.update();
         debugWindow.update();
         if (playfieldPlayer1.isGameOver() || playfieldPlayer2.isGameOver()) {
             statusTextField.setForeground(Color.RED);

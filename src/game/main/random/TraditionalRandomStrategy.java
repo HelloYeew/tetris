@@ -12,8 +12,6 @@ import java.util.List;
  * @see <a href="https://tetris.fandom.com/wiki/Random_Generator">Tetris wiki about random generator</a>
  */
 public class TraditionalRandomStrategy implements TetrominoRandomStrategy {
-    private static final List<Tetromino> defaultTetrominoPool = TetrominoType.getAllTetrominosShape();
-
     private List<Tetromino> currentTetrominoPool;
 
     private List<Tetromino> nextTetrominoPool;
@@ -55,7 +53,7 @@ public class TraditionalRandomStrategy implements TetrominoRandomStrategy {
      * @return a random tetromino pool.
      */
     private List<Tetromino> randomizeTetrominoPool() {
-        List<Tetromino> tempTetrominoPool = new java.util.ArrayList<>(defaultTetrominoPool);
+        List<Tetromino> tempTetrominoPool = TetrominoType.getAllTetrominosShape();
         // randomize the tempTetrominoPool
         for (int i = 0; i < tempTetrominoPool.size(); i++) {
             int randomIndex = (int) (Math.random() * tempTetrominoPool.size());
