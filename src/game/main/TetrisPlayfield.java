@@ -238,8 +238,25 @@ public class TetrisPlayfield extends JPanel {
      * Generate a permanent row of ghost block at the bottom of the playfield
      */
     public void generatePermanentRow() {
-        // TODO: When generate, it need to push up the entire playfield by 1
+        // create a new board
+        Color[][] newBoard = new Color[SIZE.x][SIZE.y];
+        // the new board need to put everything up from old board by1
+        for (int x = 0; x < SIZE.x; x++) {
+            for (int y = 0; y < SIZE.y; y++) {
+                if (y < SIZE.y - 1) {
+                    newBoard[x][y] = blocks[x][y + 1];
+                }
+            }
+        }
+        // copy the new board to the old board
+        blocks = newBoard;
+        // clean the current tetromino since the new board is out of sync with cleanCurrentTetrominoPositions method
+        // TODO: This is not the best way to do this, but it works for now
+        for (Vector2D position : currentTetromino.getPositions()) {
+            blocks[position.x][position.y - 1] = null;
+        }
         for (int y = SIZE.y - 1; y >= 0; y--) {
+            // fullfill the current row with ghost block
             if (blocks[0][y] == Color.DARK_GRAY) {
                 continue;
             } else {
@@ -269,8 +286,7 @@ public class TetrisPlayfield extends JPanel {
                     for (int x = 0; x < SIZE.x; x++) {
                         blocks[x][y2] = blocks[x][y2 - 1];
                     }
-                }
-                y++;
+                };
             }
         }
     }
