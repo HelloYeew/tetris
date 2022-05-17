@@ -152,7 +152,6 @@ public class GameMultiplayerClient extends JFrame implements Observer {
                     if (opponentTetrominoPool.size() <= 3) {
                         opponentTetrominoPool.add(tetrominoType);
                         System.out.println("Received tetromino type: " + tetrominoType);
-                        System.out.println("Current tetromino pool: " + opponentTetrominoPool);
                         if (opponentTetrominoPool.size() == 3) {
                             System.out.println("Received opponent tetromino pool: " + opponentTetrominoPool);
                             // We have all the tetromino types
@@ -171,10 +170,8 @@ public class GameMultiplayerClient extends JFrame implements Observer {
                                 tetrominoToSet.generateBlock();
                                 opponentPlayfield.cleanCurrentTetrominoPositions();
                                 opponentPlayfield.setCurrentTetromino(tetrominoToSet);
-                                System.out.println("Set first tetromino to opponent playfield: " + tetrominoToSet);
                             }
                             opponentPlayfield.randomStrategy.setTetrominoList(tetrominos);
-                            System.out.println("Current tetromino pool: " + opponentPlayfield.randomStrategy.getTetrominoList());
                             opponentTetrominoPool.clear();
                         }
                     }
@@ -224,9 +221,15 @@ public class GameMultiplayerClient extends JFrame implements Observer {
 
         // Add mainPanel and its components at the center of the frame
         JPanel mainPanel = new JPanel();
-        ownPlayfield = new TetrisPlayfield(playfieldSize, RandomStrategyEnum.convertToClass(randomStrategy));
-        opponentPlayfield = new TetrisPlayfield(playfieldSize, new NoneStrategy());
-        System.out.println(ownPlayfield.randomStrategy);
+        try {
+            ownPlayfield = new TetrisPlayfield(playfieldSize, RandomStrategyEnum.convertToClass(randomStrategy));
+            opponentPlayfield = new TetrisPlayfield(playfieldSize, new NoneStrategy());
+        } catch (Exception e) {
+            if (e instanceof NullPointerException) {
+                // This client is getting kicked out of the server due to server is full or some error on server
+                JOptionPane.showMessageDialog(this, "Server is full or something is wrong on server. Please check the server condition!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
         JPanel ownPanel = new JPanel();
         JPanel opponentPanel = new JPanel();
         ownPanel.setLayout(new BoxLayout(ownPanel, BoxLayout.Y_AXIS));
@@ -327,7 +330,6 @@ public class GameMultiplayerClient extends JFrame implements Observer {
             // The opponent also need current tetromino that's waiting in the playfield too
             client.sendTCP(TetrominoType.convertTetrominoToType(ownPlayfield.getCurrentTetromino()));
             for (Tetromino tetromino : ownPlayfield.randomStrategy.getTetrominoList().subList(0, 2)) {
-                System.out.println(ownPlayfield.randomStrategy.getTetrominoList());
                 TetrominoType sentType = TetrominoType.convertTetrominoToType(tetromino);
                 client.sendTCP(sentType);
                 System.out.println("Sent: " + sentType);
@@ -399,6 +401,4 @@ public class GameMultiplayerClient extends JFrame implements Observer {
         GameMultiplayerClient gameClient = new GameMultiplayerClient();
         gameClient.start();
     }
-
-    // TODO: Sync progress on bug fix from local client
 }
