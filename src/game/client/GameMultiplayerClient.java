@@ -80,6 +80,8 @@ public class GameMultiplayerClient extends JFrame implements Observer {
 
     private ArrayList<TetrominoType> opponentTetrominoPool = new ArrayList<>();
 
+    private Boolean hasSentFirstTime = false;
+
     /**
      * Create a new game with necessary components
      */
@@ -115,6 +117,7 @@ public class GameMultiplayerClient extends JFrame implements Observer {
                     // Server sent a new game state
                     if (gameState == GameState.START) {
                         // Start the observable
+                        sendCurrentPoolToServer();
                         statusTextField.setText("");
                         observable.start();
                     } else if (gameState == GameState.PAUSE) {
@@ -157,14 +160,25 @@ public class GameMultiplayerClient extends JFrame implements Observer {
                             List<Tetromino> tetrominos = new ArrayList<>();
                             for (TetrominoType type : opponentTetrominoPool) {
                                 Tetromino tetrominoToAdd = TetrominoType.convertTypeToTetromino(type);
-                                tetrominoToAdd.setOrigin(opponentPlayfield.SPAWN_POSITION);
+                                tetrominoToAdd.setOrigin(Vector2D.clone(opponentPlayfield.SPAWN_POSITION));
                                 tetrominos.add(tetrominoToAdd);
+                            }
+                            if (opponentPlayfield.randomStrategy.getNextTetromino() == null) {
+                                // This is the first time we receive the tetromino type
+                                // We need to update the opponent playfield too
+                                Tetromino tetrominoToSet = tetrominos.get(0);
+                                tetrominoToSet.setOrigin(Vector2D.clone(opponentPlayfield.SPAWN_POSITION));
+                                tetrominoToSet.generateBlock();
+                                opponentPlayfield.cleanCurrentTetrominoPositions();
+                                opponentPlayfield.setCurrentTetromino(tetrominoToSet);
+                                System.out.println("Set first tetromino to opponent playfield: " + tetrominoToSet);
                             }
                             opponentPlayfield.randomStrategy.setTetrominoList(tetrominos);
                             System.out.println("Current tetromino pool: " + opponentPlayfield.randomStrategy.getTetrominoList());
                             opponentTetrominoPool.clear();
                         }
                     }
+
                 }
             }
 
@@ -274,12 +288,8 @@ public class GameMultiplayerClient extends JFrame implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
-        for (Tetromino tetromino : ownPlayfield.randomStrategy.getTetrominoList().subList(0, 3)) {
-            System.out.println(ownPlayfield.randomStrategy.getTetrominoList());
-            TetrominoType sentType = TetrominoType.convertTetrominoToType(tetromino);
-            client.sendTCP(sentType);
-            System.out.println("Sent: " + sentType);
-        }
+        // Send the information about current tetromino pool to the server
+        sendCurrentPoolToServer();
         if (ownPlayfield.countFullRow() - ownPlayfieldFullRow > 0) {
             for (int i = 0; i < ownPlayfield.countFullRow() - ownPlayfieldFullRow; i++) {
                 opponentPlayfield.generatePermanentRow();
@@ -311,6 +321,27 @@ public class GameMultiplayerClient extends JFrame implements Observer {
         repaint();
     }
 
+    private void sendCurrentPoolToServer() {
+        if (!hasSentFirstTime) {
+            // This is the first time we send the pool to the server
+            // The opponent also need current tetromino that's waiting in the playfield too
+            client.sendTCP(TetrominoType.convertTetrominoToType(ownPlayfield.getCurrentTetromino()));
+            for (Tetromino tetromino : ownPlayfield.randomStrategy.getTetrominoList().subList(0, 2)) {
+                System.out.println(ownPlayfield.randomStrategy.getTetrominoList());
+                TetrominoType sentType = TetrominoType.convertTetrominoToType(tetromino);
+                client.sendTCP(sentType);
+                System.out.println("Sent: " + sentType);
+            }
+            hasSentFirstTime = true;
+        }
+        for (Tetromino tetromino : ownPlayfield.randomStrategy.getTetrominoList().subList(0, 3)) {
+            System.out.println(ownPlayfield.randomStrategy.getTetrominoList());
+            TetrominoType sentType = TetrominoType.convertTetrominoToType(tetromino);
+            client.sendTCP(sentType);
+            System.out.println("Sent: " + sentType);
+        }
+    }
+
     /**
      * Get the instance of the observable that updating the game
      * @return the instance of the observable that updating the game
@@ -331,6 +362,8 @@ public class GameMultiplayerClient extends JFrame implements Observer {
             setVisible(true);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Could not connect to server\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Could not connect to server");
+            e.printStackTrace();
             System.exit(0);
         }
 
@@ -338,7 +371,7 @@ public class GameMultiplayerClient extends JFrame implements Observer {
         observable = new GameObservable(delayedTick);
         observable.addObserver(this);
 
-        statusTextField.setText("Waiting for other player...");
+        statusTextField.setText("Waiting for other player... (opponent's playfield will be updated when opponent's connect)");
         statusTextField.setForeground(Color.BLACK);
 
         // Update the debug window manually since the game is not running yet.

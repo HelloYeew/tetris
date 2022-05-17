@@ -4,6 +4,7 @@ import game.main.random.TetrominoRandomStrategy;
 import game.main.random.TraditionalRandomStrategy;
 import game.main.math.Vector2D;
 import game.main.tetromino.Tetromino;
+import game.main.tetromino.TetrominoI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -167,8 +168,14 @@ public class TetrisPlayfield extends JPanel {
      */
     private void createNewTetromino() {
         Tetromino nextTetromino = randomStrategy.getNextTetromino();
-        nextTetromino.setOrigin(Vector2D.clone(SPAWN_POSITION));
-        currentTetromino = nextTetromino;
+        if (nextTetromino != null) {
+            nextTetromino.setOrigin(Vector2D.clone(SPAWN_POSITION));
+            currentTetromino = nextTetromino;
+        } else {
+            // maybe sometime the random strategy is not working or this client is using in multiplayer
+            // that's waiting for the next tetromino from the server
+            currentTetromino = new TetrominoI(Vector2D.clone(SPAWN_POSITION));
+        }
     }
 
     /**
@@ -322,6 +329,10 @@ public class TetrisPlayfield extends JPanel {
      */
     public Tetromino getCurrentTetromino() {
         return currentTetromino;
+    }
+
+    public Tetromino setCurrentTetromino(Tetromino currentTetromino) {
+        return this.currentTetromino = currentTetromino;
     }
 
     /**

@@ -1,12 +1,16 @@
 package game.main.random;
 
 import game.main.tetromino.Tetromino;
-import game.main.tetromino.TetrominoType;
 
 import java.util.List;
 
+/**
+ * Strategy that's not create or random any tetromino but need to be set manually.
+ * <br>
+ * This strategy mainly use in multiplayer client where opponent's playfield need to be set manually from server.
+ */
 public class NoneStrategy implements TetrominoRandomStrategy {
-    private List<Tetromino> tetrominoList = TetrominoType.getAllTetrominosShape();
+    private List<Tetromino> tetrominoList;
 
     /**
      * Returns a next tetromino for insert in the board.
@@ -15,7 +19,12 @@ public class NoneStrategy implements TetrominoRandomStrategy {
      */
     @Override
     public Tetromino getNextTetromino() {
-        return tetrominoList.get(0);
+        // check tetrominoList is null or not
+        if (tetrominoList == null) {
+            return null;
+        } else {
+            return tetrominoList.get(0);
+        }
     }
 
     /**
