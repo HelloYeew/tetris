@@ -175,18 +175,19 @@ public class GameLocalClient extends JFrame implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
-        if (playfieldPlayer1.countFullRow() - player1RowFull > 0) {
-            for (int i = 0; i < playfieldPlayer1.countFullRow() - player1RowFull; i++) {
+        int playfield1FullRows = playfieldPlayer1.checkAndRemoveRow();
+        int playfield2FullRows = playfieldPlayer2.checkAndRemoveRow();
+        if (playfield1FullRows > 0) {
+            for (int i = 0; i < playfield1FullRows; i++) {
                 playfieldPlayer2.generatePermanentRow();
             }
-            player1RowFull = playfieldPlayer1.countFullRow();
         }
-        if (playfieldPlayer2.countFullRow() - player2RowFull > 0) {
-            for (int i = 0; i < playfieldPlayer2.countFullRow() - player2RowFull; i++) {
+        if (playfield2FullRows > 0) {
+            for (int i = 0; i < playfield2FullRows; i++) {
                 playfieldPlayer1.generatePermanentRow();
             }
-            player2RowFull = playfieldPlayer2.countFullRow();
         }
+        playfieldPlayer1.checkAndRemoveRow();
         playfieldPlayer1.update();
         playfieldPlayer2.update();
         debugWindow.update();

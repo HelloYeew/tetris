@@ -292,12 +292,44 @@ public class TetrisPlayfield extends JPanel {
         for (int y = 0; y < SIZE.y; y++) {
             boolean isRowFull = true;
             for (int x = 0; x < SIZE.x; x++) {
-                if (blocks[x][y] == null || blocks[x][y] == Color.DARK_GRAY) {
+                if (blocks[x][y] == null || (blocks[x][y] != null && blocks[x][y] == Color.DARK_GRAY)) {
                     isRowFull = false;
+                    break;
                 }
             }
             if (isRowFull) {
                 fullRow++;
+            }
+        }
+        return fullRow;
+    }
+
+    /**
+     * Clear the row that's full and not the permanent row
+     * @return the row number that's full and not the permanent row
+     */
+    public int checkAndRemoveRow() {
+        int fullRow = 0;
+        for (int y = 0; y < SIZE.y; y++) {
+            boolean isRowFull = true;
+            for (int x = 0; x < SIZE.x; x++) {
+                if (blocks[x][y] == null || (blocks[x][y] != null && blocks[x][y] == Color.DARK_GRAY)) {
+                    isRowFull = false;
+                    break;
+                }
+            }
+            if (isRowFull) {
+                // remove the row and move all the rows above down
+                for (int x = 0; x < SIZE.x; x++) {
+                    blocks[x][y] = null;
+                }
+                for (int y2 = y; y2 > 0; y2--) {
+                    for (int x = 0; x < SIZE.x; x++) {
+                        blocks[x][y2] = blocks[x][y2 - 1];
+                    }
+                }
+                fullRow++;
+                y++;
             }
         }
         return fullRow;

@@ -311,17 +311,17 @@ public class GameMultiplayerClient extends JFrame implements Observer {
     public void update(Observable o, Object arg) {
         // Send the information about current tetromino pool to the server
         sendCurrentPoolToServer();
-        if (ownPlayfield.countFullRow() - ownPlayfieldFullRow > 0) {
-            for (int i = 0; i < ownPlayfield.countFullRow() - ownPlayfieldFullRow; i++) {
+        int ownPlayfieldFullRows = ownPlayfield.checkAndRemoveRow();
+        int opponentPlayfieldFullRows = opponentPlayfield.checkAndRemoveRow();
+        if (ownPlayfieldFullRows > 0) {
+            for (int i = 0; i < ownPlayfieldFullRows; i++) {
                 opponentPlayfield.generatePermanentRow();
             }
-            ownPlayfieldFullRow = ownPlayfield.countFullRow();
         }
-        if (opponentPlayfield.countFullRow() - opponentPlayfieldFullRow > 0) {
-            for (int i = 0; i < opponentPlayfield.countFullRow() - opponentPlayfieldFullRow; i++) {
+        if (opponentPlayfieldFullRows > 0) {
+            for (int i = 0; i < opponentPlayfieldFullRows; i++) {
                 ownPlayfield.generatePermanentRow();
             }
-            opponentPlayfieldFullRow = opponentPlayfield.countFullRow();
         }
         ownPlayfield.update();
         opponentPlayfield.update();
