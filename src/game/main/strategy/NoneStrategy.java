@@ -1,18 +1,17 @@
-package game.main.random;
+package game.main.strategy;
 
-import game.main.math.Vector2D;
 import game.main.tetromino.Tetromino;
-import game.main.tetromino.TetrominoO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Return every tetromino as O tetromino because we love O.
+ * Strategy that's not create or random any tetromino but need to be set manually.
  * <br>
- * Kid tueng kon bon fah.
+ * This strategy mainly use in multiplayer client where opponent's playfield need to be set manually from server.
  */
-public class WeLoveOStrategy implements TetrominoRandomStrategy {
+public class NoneStrategy implements TetrominoRandomStrategy {
+    private List<Tetromino> tetrominoList;
+
     /**
      * Returns a next tetromino for insert in the board.
      *
@@ -20,19 +19,21 @@ public class WeLoveOStrategy implements TetrominoRandomStrategy {
      */
     @Override
     public Tetromino getNextTetromino() {
-        return new TetrominoO(new Vector2D(0,0));
+        // check tetrominoList is null or not
+        if (tetrominoList == null) {
+            return null;
+        } else {
+            return tetrominoList.get(0);
+        }
     }
 
     /**
      * Returns a list of next tetromino for showing next tetromino.
+     *
      * @return a list of next tetromino for showing next tetromino.
      */
     @Override
     public List<Tetromino> getTetrominoList() {
-        ArrayList<Tetromino> tetrominoList = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            tetrominoList.add(new TetrominoO(new Vector2D(0,0)));
-        }
         return tetrominoList;
     }
 
@@ -40,8 +41,7 @@ public class WeLoveOStrategy implements TetrominoRandomStrategy {
      * Sets a list of tetromino for showing next tetromino.
      * @param tetrominoList a list of tetromino for showing next tetromino.
      */
-    @Override
     public void setTetrominoList(List<Tetromino> tetrominoList) {
-        // Do nothing
+        this.tetrominoList = tetrominoList;
     }
 }

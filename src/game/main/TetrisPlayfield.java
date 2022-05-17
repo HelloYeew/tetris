@@ -1,7 +1,7 @@
 package game.main;
 
-import game.main.random.TetrominoRandomStrategy;
-import game.main.random.TraditionalRandomStrategy;
+import game.main.strategy.TetrominoRandomStrategy;
+import game.main.strategy.TraditionalRandomStrategy;
 import game.main.math.Vector2D;
 import game.main.tetromino.Tetromino;
 import game.main.tetromino.TetrominoI;

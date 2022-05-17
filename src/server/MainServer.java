@@ -4,7 +4,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import game.main.math.Vector2D;
-import game.main.random.RandomStrategyEnum;
+import game.main.strategy.RandomStrategyEnum;
 import game.main.tetromino.TetrominoType;
 
 import javax.swing.*;

@@ -1,4 +1,4 @@
-package game.main.random;
+package game.main.strategy;
 
 /**
  * The enum value that's using when server want send random strategy to client.

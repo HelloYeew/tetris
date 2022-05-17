@@ -2,7 +2,7 @@ package game.client;
 
 import game.main.TetrisPlayfield;
 import game.main.math.Vector2D;
-import game.main.random.TraditionalRandomStrategy;
+import game.main.strategy.TraditionalRandomStrategy;
 
 import javax.swing.*;
 import java.awt.*;

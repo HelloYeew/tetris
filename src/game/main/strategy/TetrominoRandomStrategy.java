@@ -1,4 +1,4 @@
-package game.main.random;
+package game.main.strategy;
 
 import game.main.tetromino.Tetromino;
 
