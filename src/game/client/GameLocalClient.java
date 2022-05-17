@@ -33,7 +33,7 @@ public class GameLocalClient extends JFrame implements Observer {
     /**
      * Show debug information.
      */
-    public Boolean DEBUG = true;
+    public Boolean DEBUG = false;
 
     /**
      * The game's observable for updating the game time
@@ -50,8 +50,14 @@ public class GameLocalClient extends JFrame implements Observer {
      */
     private LocalDebugWindow debugWindow;
 
+    /**
+     * The number of the current full row of player 1
+     */
     private int player1RowFull = 0;
 
+    /**
+     * The number of the current full row of player 2
+     */
     private int player2RowFull = 0;
 
     /**
@@ -60,7 +66,7 @@ public class GameLocalClient extends JFrame implements Observer {
     public GameLocalClient() {
         super("just a tetris");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 700);
+        setSize(500, 600);
         addKeyListener(new PlayerController());
         setFocusable(true);
         setResizable(false);
@@ -236,6 +242,9 @@ public class GameLocalClient extends JFrame implements Observer {
         debugWindow.update();
     }
 
+    /**
+     * Restart the game by resetting everything to the initial state
+     */
     public void restartGame() {
         playfieldPlayer1.restartGame();
         playfieldPlayer2.restartGame();
@@ -250,4 +259,6 @@ public class GameLocalClient extends JFrame implements Observer {
         GameLocalClient game = new GameLocalClient();
         game.start();
     }
+
+    // TODO: Show next piece (if we have time)
 }

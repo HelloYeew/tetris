@@ -72,14 +72,32 @@ public class GameMultiplayerClient extends JFrame implements Observer {
      */
     private Client client;
 
+    /**
+     * The random strategy that get from server.
+     */
     private RandomStrategyEnum randomStrategy;
-    
+
+    /**
+     * The number of the current full row of our playfield.
+     */
     private int ownPlayfieldFullRow;
-    
+
+    /**
+     * The number of the current full row of opponent's playfield.
+     */
     private int opponentPlayfieldFullRow;
 
+    /**
+     * Current opponent's next list of tetromino. This need to create due to the fact that
+     * kyronet cannot handle a list of object so we need to get it one by one.
+     */
     private ArrayList<TetrominoType> opponentTetrominoPool = new ArrayList<>();
 
+    /**
+     * Boolean value indicate that the client has sent the first own tetromino to the server.
+     * <br>
+     * This use as the flag to make the first tetromino sync with the server.
+     */
     private Boolean hasSentFirstTime = false;
 
     /**
@@ -324,6 +342,9 @@ public class GameMultiplayerClient extends JFrame implements Observer {
         repaint();
     }
 
+    /**
+     * Send the information about current tetromino pool to the server
+     */
     private void sendCurrentPoolToServer() {
         if (!hasSentFirstTime) {
             // This is the first time we send the pool to the server

@@ -3,8 +3,6 @@ import game.client.GameMultiplayerClient;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Main class of the game to select the mode of the game to launch.
@@ -58,20 +56,14 @@ public class Main extends JFrame {
         bottomPanel.add(bottomLabel);
         add(bottomPanel, BorderLayout.SOUTH);
 
-        localGameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                (new GameLocalClient()).start();
-                dispose();
-            }
+        localGameButton.addActionListener(e -> {
+            (new GameLocalClient()).start();
+            dispose();
         });
 
-        onlineGameButton.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               (new GameMultiplayerClient()).start();
-               dispose();
-           }
+        onlineGameButton.addActionListener(e -> {
+            (new GameMultiplayerClient()).start();
+            dispose();
         });
 
         setResizable(false);

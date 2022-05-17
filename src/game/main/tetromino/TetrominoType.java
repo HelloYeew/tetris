@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 /**
  * The type of tetromino that's available in the game.
- *
  * @see <a href="https://tetris.fandom.com/wiki/Tetromino">Tetris wiki</a>
  */
 public enum TetrominoType {
@@ -36,6 +35,11 @@ public enum TetrominoType {
         };
     }
 
+    /**
+     * Convert the tetromino to it's enum type.
+     * @param tetromino The tetromino to convert.
+     * @return The enum type of the tetromino.
+     */
     public static TetrominoType convertTetrominoToType(Tetromino tetromino) {
         if (tetromino instanceof TetrominoI) {
             return I;
@@ -56,6 +60,11 @@ public enum TetrominoType {
         }
     }
 
+    /**
+     * Create a new tetromino of the given type.
+     * @param type The type of tetromino to create.
+     * @return The new tetromino.
+     */
     public static Tetromino convertTypeToTetromino(TetrominoType type) {
         if (type == I) {
             return new TetrominoI(new Vector2D(0, 0));

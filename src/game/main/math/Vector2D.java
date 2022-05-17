@@ -79,6 +79,11 @@ public class Vector2D {
         return new Vector2D(vector2D.x, vector2D.y);
     }
 
+    /**
+     * Add a vector to the current position
+     * @param vector2D The vector to add
+     * @return The new position
+     */
     public Vector2D add(Vector2D vector2D) {
         return new Vector2D(x + vector2D.x, y + vector2D.y);
     }

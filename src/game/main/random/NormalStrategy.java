@@ -5,6 +5,10 @@ import game.main.tetromino.TetrominoType;
 
 import java.util.List;
 
+/**
+ * The strategy that's not random the tetromino but get the default pool from <code>TetrominoType</code>'s static method
+ * and plus the index by one when get the next tetromino.
+ */
 public class NormalStrategy implements TetrominoRandomStrategy {
     private int index = 0;
 

@@ -49,7 +49,6 @@ public class TetrominoO implements Tetromino {
 
     /**
      * Get the color of the tetromino
-     *
      * @return Color Current color of the block
      */
     @Override
@@ -59,7 +58,6 @@ public class TetrominoO implements Tetromino {
 
     /**
      * Set the tetromino's color
-     *
      * @param color Color of the tetromino
      */
     @Override
@@ -69,7 +67,6 @@ public class TetrominoO implements Tetromino {
 
     /**
      * Get the origin of the tetromino
-     *
      * @return Vector2D Origin of the tetromino
      */
     @Override
@@ -79,7 +76,6 @@ public class TetrominoO implements Tetromino {
 
     /**
      * Set the origin of the tetromino
-     *
      * @param origin Set the origin of the tetromino
      */
     @Override
@@ -91,7 +87,6 @@ public class TetrominoO implements Tetromino {
 
     /**
      * Get the list of all blocks of the tetromino
-     *
      * @return ArrayList<Vector2D> List of all blocks of the tetromino
      */
     @Override
@@ -101,7 +96,6 @@ public class TetrominoO implements Tetromino {
 
     /**
      * Set the position of all block of the tetromino to a new position
-     *
      * @param positions A new list of position that will replace the old list
      */
     @Override
@@ -111,7 +105,6 @@ public class TetrominoO implements Tetromino {
 
     /**
      * Get the type of the tetromino
-     *
      * @return int type of the tetromino
      */
     @Override
@@ -121,7 +114,6 @@ public class TetrominoO implements Tetromino {
 
     /**
      * Set the tetromino state to a new state
-     *
      * @param state New state of the tetromino
      */
     @Override
@@ -131,7 +123,6 @@ public class TetrominoO implements Tetromino {
 
     /**
      * Get the tetromino state
-     *
      * @return Current state of the tetromino
      */
     @Override
@@ -141,7 +132,6 @@ public class TetrominoO implements Tetromino {
 
     /**
      * Get the next position of the next state of the tetromino
-     *
      * @return Next position of the next state of the tetromino
      */
     @Override

@@ -5,7 +5,7 @@ import game.main.tetromino.Tetromino;
 import java.util.List;
 
 /**
- * A strategy for choosing a random tetromino from a list of tetrominos.
+ * A strategy for control the tetromino flow in the playfield.
  */
 public interface TetrominoRandomStrategy {
     /**

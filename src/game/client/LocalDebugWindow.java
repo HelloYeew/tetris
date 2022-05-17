@@ -74,7 +74,7 @@ public class LocalDebugWindow extends JFrame {
     /**
      * Update the elements of the DebugWindow.
      * <br>
-     * Normally this method is called by the main game loop but it can also be called manually if this window needs to be updated
+     * Normally this method is called by the main game loop, but it can also be called manually if this window needs to be updated
      * but the game's running state is not running.
      */
     public void update() {

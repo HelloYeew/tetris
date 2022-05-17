@@ -44,8 +44,14 @@ public class TetrisPlayfield extends JPanel {
      */
     private int gameOverYPosition = 5;
 
+    /**
+     * Boolean value indicating if the playfield received the control from current tick
+     */
     public Boolean isReceivedInput = false;
 
+    /**
+     * The random strategy that will be used to spawn and control the tetromino
+     */
     public TetrominoRandomStrategy randomStrategy;
 
     /**
@@ -133,7 +139,6 @@ public class TetrisPlayfield extends JPanel {
 
     /**
      * Check that the current tetromino is collide with other tetromino or collide with the ground.
-     *
      * If collided, it will create a new tetromino.
      */
     public Boolean checkCollision(Boolean createNewWhenColliding) {
@@ -193,7 +198,7 @@ public class TetrisPlayfield extends JPanel {
 
     /**
      * Move the tetromino to the right
-     *
+     * <br>
      * This method need to recall almost all the paint method due to the frame stuttering.
      */
     public void moveRight() {
@@ -210,7 +215,7 @@ public class TetrisPlayfield extends JPanel {
 
     /**
      * Move the tetromino to the left
-     *
+     * <br>
      * This method need to recall almost all the paint method due to the frame stuttering.
      */
     public void moveLeft() {
@@ -249,7 +254,7 @@ public class TetrisPlayfield extends JPanel {
     public void generatePermanentRow() {
         // create a new board
         Color[][] newBoard = new Color[SIZE.x][SIZE.y];
-        // the new board need to put everything up from old board by1
+        // the new board need to put everything up from old board by 1
         for (int x = 0; x < SIZE.x; x++) {
             for (int y = 0; y < SIZE.y; y++) {
                 if (y < SIZE.y - 1) {
@@ -260,13 +265,14 @@ public class TetrisPlayfield extends JPanel {
         // copy the new board to the old board
         blocks = newBoard;
         // clean the current tetromino since the new board is out of sync with cleanCurrentTetrominoPositions method
-        // TODO: This is not the best way to do this, but it works for now
+        // This is not the best way to do this, but it works for now
         for (Vector2D position : currentTetromino.getPositions()) {
             blocks[position.x][position.y - 1] = null;
         }
+        // fullfill the row with ghost block
         for (int y = SIZE.y - 1; y >= 0; y--) {
-            // fullfill the current row with ghost block
             if (blocks[0][y] == Color.DARK_GRAY) {
+                // this row is already a permanent row, can skip
                 continue;
             } else {
                 for (int x = 0; x < SIZE.x; x++) {
@@ -299,7 +305,6 @@ public class TetrisPlayfield extends JPanel {
 
     /**
      * Check the game over condition by check that is there any block in the row that we set as game over row.
-     *
      * @return true if there is any block in the game over row, false otherwise
      */
     public Boolean isGameOver() {
@@ -324,15 +329,18 @@ public class TetrisPlayfield extends JPanel {
 
     /**
      * Get the current tetromino that player is controlling
-     *
      * @return the current tetromino that player is controlling
      */
     public Tetromino getCurrentTetromino() {
         return currentTetromino;
     }
 
-    public Tetromino setCurrentTetromino(Tetromino currentTetromino) {
-        return this.currentTetromino = currentTetromino;
+    /**
+     * Set the current tetromino that player is controlling
+     * @param currentTetromino the current tetromino that player is controlling
+     */
+    public void setCurrentTetromino(Tetromino currentTetromino) {
+        this.currentTetromino = currentTetromino;
     }
 
     /**
@@ -349,6 +357,11 @@ public class TetrisPlayfield extends JPanel {
         repaint();
     }
 
+    /**
+     * Check if the current tetromino can be rotated to next state by checking the next state position.
+     * @param newPositions the next state position of the current tetromino
+     * @return true if the current tetromino can be rotated to next state, false otherwise
+     */
     public Boolean checkCanBeRotated(ArrayList<Vector2D> newPositions) {
         // Can be rotate when the new position is not out of bound and there is no block in the new position
         // Check if the new position is out of bound

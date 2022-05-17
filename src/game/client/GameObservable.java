@@ -111,6 +111,9 @@ public class GameObservable extends Observable {
         return tick;
     }
 
+    /**
+     * Restart the game by setting the tick to 0.
+     */
     public void restartGame() {
         this.tick = 0;
     }

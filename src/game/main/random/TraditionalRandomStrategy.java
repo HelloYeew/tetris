@@ -12,8 +12,14 @@ import java.util.List;
  * @see <a href="https://tetris.fandom.com/wiki/Random_Generator">Tetris wiki about random generator</a>
  */
 public class TraditionalRandomStrategy implements TetrominoRandomStrategy {
+    /**
+     * Current tetromino pool that's using to generate next tetromino.
+     */
     private List<Tetromino> currentTetrominoPool;
 
+    /**
+     * Next pool that's going to be used after current pool is used up.
+     */
     private List<Tetromino> nextTetrominoPool;
 
     public TraditionalRandomStrategy() {
@@ -23,7 +29,6 @@ public class TraditionalRandomStrategy implements TetrominoRandomStrategy {
 
     /**
      * Returns a next tetromino for insert in the board.
-     *
      * @return a next tetromino for insert in the board.
      */
     @Override
@@ -36,7 +41,6 @@ public class TraditionalRandomStrategy implements TetrominoRandomStrategy {
 
     /**
      * Returns a list of next tetromino for showing next tetromino.
-     *
      * @return a list of next tetromino for showing next tetromino.
      */
     @Override
@@ -59,7 +63,6 @@ public class TraditionalRandomStrategy implements TetrominoRandomStrategy {
 
     /**
      * Sets a list of tetromino for showing next tetromino.
-     *
      * @param tetrominoList a list of tetromino for showing next tetromino.
      */
     @Override

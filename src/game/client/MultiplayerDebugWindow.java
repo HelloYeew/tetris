@@ -74,12 +74,13 @@ public class MultiplayerDebugWindow extends JFrame {
     /**
      * Update the elements of the DebugWindow.
      * <br>
-     * Normally this method is called by the main game loop but it can also be called manually if this window needs to be updated
+     * Normally this method is called by the main game loop, but it can also be called manually if this window needs to be updated
      * but the game's running state is not running.
      */
     public void update() {
         String player1Detail = "";
         player1Detail += "Size : " + gameClient.ownPlayfield.SIZE + "\n";
+        player1Detail += "Origin : " + gameClient.ownPlayfield.SPAWN_POSITION + "\n";
         player1Detail += "Spawn location : " + gameClient.ownPlayfield.SPAWN_POSITION + "\n";
         player1Detail += "Current tetromino : " + gameClient.ownPlayfield.getCurrentTetromino().toString() + "\n";
         player1Detail += "Tetromino position : " + gameClient.ownPlayfield.getCurrentTetromino().getPositions().toString();
@@ -93,6 +94,7 @@ public class MultiplayerDebugWindow extends JFrame {
 
         String player2Detail = "";
         player2Detail += "Size : " + gameClient.opponentPlayfield.SIZE + "\n";
+        player2Detail += "Origin : " + gameClient.opponentPlayfield.SPAWN_POSITION + "\n";
         player2Detail += "Spawn location : " + gameClient.opponentPlayfield.SPAWN_POSITION + "\n";
         player2Detail += "Current tetromino : " + gameClient.opponentPlayfield.getCurrentTetromino().toString() + "\n";
         player2Detail += "Tetromino position : " + gameClient.opponentPlayfield.getCurrentTetromino().getPositions().toString();

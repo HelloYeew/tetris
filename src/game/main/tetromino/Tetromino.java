@@ -75,7 +75,6 @@ public interface Tetromino {
 
     /**
      * Set the tetromino state to a new state
-     *
      * @param state New state of the tetromino
      */
     void setState(TetrominoState state);

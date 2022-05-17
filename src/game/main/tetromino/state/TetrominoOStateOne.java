@@ -11,7 +11,6 @@ import java.util.ArrayList;
 public class TetrominoOStateOne implements TetrominoState, TetrominoOState {
     /**
      * Rotates the Tetromino.
-     *
      * @param tetromino the Tetromino to rotate
      */
     @Override

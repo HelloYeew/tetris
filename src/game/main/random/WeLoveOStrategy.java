@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * Return every tetromino as O tetromino because we love O.
- *
+ * <br>
  * Kid tueng kon bon fah.
  */
 public class WeLoveOStrategy implements TetrominoRandomStrategy {
@@ -25,7 +25,6 @@ public class WeLoveOStrategy implements TetrominoRandomStrategy {
 
     /**
      * Returns a list of next tetromino for showing next tetromino.
-     *
      * @return a list of next tetromino for showing next tetromino.
      */
     @Override
@@ -39,7 +38,6 @@ public class WeLoveOStrategy implements TetrominoRandomStrategy {
 
     /**
      * Sets a list of tetromino for showing next tetromino.
-     *
      * @param tetrominoList a list of tetromino for showing next tetromino.
      */
     @Override
