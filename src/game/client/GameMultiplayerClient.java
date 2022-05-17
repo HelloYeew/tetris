@@ -5,7 +5,10 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import game.main.TetrisPlayfield;
 import game.main.math.Vector2D;
+import game.main.random.NoneStrategy;
 import game.main.random.RandomStrategyEnum;
+import game.main.tetromino.Tetromino;
+import game.main.tetromino.TetrominoType;
 import server.ControlDirection;
 import server.GameState;
 import server.MainServer;
@@ -15,6 +18,8 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -73,6 +78,8 @@ public class GameMultiplayerClient extends JFrame implements Observer {
     
     private int opponentPlayfieldFullRow;
 
+    private ArrayList<TetrominoType> opponentTetrominoPool = new ArrayList<>();
+
     /**
      * Create a new game with necessary components
      */
@@ -91,6 +98,7 @@ public class GameMultiplayerClient extends JFrame implements Observer {
         client.getKryo().register(ControlDirection.class);
         client.getKryo().register(GameState.class);
         client.getKryo().register(RandomStrategyEnum.class);
+        client.getKryo().register(TetrominoType.class);
         client.addListener(new Listener() {
             @Override
             public void received(Connection connection, Object object) {
@@ -110,10 +118,11 @@ public class GameMultiplayerClient extends JFrame implements Observer {
                         statusTextField.setText("");
                         observable.start();
                     } else if (gameState == GameState.PAUSE) {
-                        // Pause the game{
+                        // Pause the game
                         pause();
                     } else if (gameState == GameState.DISCONNECT) {
-                        // Disconnect from server
+                        // Server requested disconnect
+                        observable.setRunning(false);
                         JOptionPane.showMessageDialog(GameMultiplayerClient.this, "You have been disconnected from the server.");
                         observable.setRunning(false);
                         client.close();
@@ -131,6 +140,31 @@ public class GameMultiplayerClient extends JFrame implements Observer {
                     // Server sent an initial random strategy for playfield
                     randomStrategy = randomStrategyEnum;
                     System.out.println("Received random strategy: " + randomStrategy);
+                } else if (object instanceof TetrominoType tetrominoType) {
+                    // Server send current tetromino type of opponent
+                    // Server will send this every tick and we will use it to update the opponent playfield
+                    // But due to the kyronet cannot handle the big list so +we need to send it by parts
+                    // We set that opponent (the other side's client) will send the 3 tetromino types
+                    // and we will use the first one to update the opponent playfield
+                    if (opponentTetrominoPool.size() <= 3) {
+                        opponentTetrominoPool.add(tetrominoType);
+                        System.out.println("Received tetromino type: " + tetrominoType);
+                        System.out.println("Current tetromino pool: " + opponentTetrominoPool);
+                        if (opponentTetrominoPool.size() == 3) {
+                            System.out.println("Received opponent tetromino pool: " + opponentTetrominoPool);
+                            // We have all the tetromino types
+                            // We can update the opponent playfield
+                            List<Tetromino> tetrominos = new ArrayList<>();
+                            for (TetrominoType type : opponentTetrominoPool) {
+                                Tetromino tetrominoToAdd = TetrominoType.convertTypeToTetromino(type);
+                                tetrominoToAdd.setOrigin(opponentPlayfield.SPAWN_POSITION);
+                                tetrominos.add(tetrominoToAdd);
+                            }
+                            opponentPlayfield.randomStrategy.setTetrominoList(tetrominos);
+                            System.out.println("Current tetromino pool: " + opponentPlayfield.randomStrategy.getTetrominoList());
+                            opponentTetrominoPool.clear();
+                        }
+                    }
                 }
             }
 
@@ -147,7 +181,7 @@ public class GameMultiplayerClient extends JFrame implements Observer {
     /**
      * Initialize the game window.
      *
-     * This method must be called after the connection to the server has been established.
+     * This method must be called after the connection to the server has been established since we need some information from the server.
      */
     private void initGui() {
         // Add topPanel include the debug window button and status text field
@@ -177,7 +211,7 @@ public class GameMultiplayerClient extends JFrame implements Observer {
         // Add mainPanel and its components at the center of the frame
         JPanel mainPanel = new JPanel();
         ownPlayfield = new TetrisPlayfield(playfieldSize, RandomStrategyEnum.convertToClass(randomStrategy));
-        opponentPlayfield = new TetrisPlayfield(playfieldSize, RandomStrategyEnum.convertToClass(randomStrategy));
+        opponentPlayfield = new TetrisPlayfield(playfieldSize, new NoneStrategy());
         System.out.println(ownPlayfield.randomStrategy);
         JPanel ownPanel = new JPanel();
         JPanel opponentPanel = new JPanel();
@@ -240,6 +274,12 @@ public class GameMultiplayerClient extends JFrame implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
+        for (Tetromino tetromino : ownPlayfield.randomStrategy.getTetrominoList().subList(0, 3)) {
+            System.out.println(ownPlayfield.randomStrategy.getTetrominoList());
+            TetrominoType sentType = TetrominoType.convertTetrominoToType(tetromino);
+            client.sendTCP(sentType);
+            System.out.println("Sent: " + sentType);
+        }
         if (ownPlayfield.countFullRow() - ownPlayfieldFullRow > 0) {
             for (int i = 0; i < ownPlayfield.countFullRow() - ownPlayfieldFullRow; i++) {
                 opponentPlayfield.generatePermanentRow();

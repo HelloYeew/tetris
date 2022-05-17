@@ -36,4 +36,14 @@ public class WeLoveOStrategy implements TetrominoRandomStrategy {
         }
         return tetrominoList;
     }
+
+    /**
+     * Sets a list of tetromino for showing next tetromino.
+     *
+     * @param tetrominoList a list of tetromino for showing next tetromino.
+     */
+    @Override
+    public void setTetrominoList(List<Tetromino> tetrominoList) {
+        // Do nothing
+    }
 }

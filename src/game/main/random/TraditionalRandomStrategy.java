@@ -42,10 +42,29 @@ public class TraditionalRandomStrategy implements TetrominoRandomStrategy {
     @Override
     public List<Tetromino> getTetrominoList() {
         List<Tetromino> tetrominoList = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            tetrominoList.add(nextTetrominoPool.get(i));
+        if (currentTetrominoPool.size() > 4) {
+            for (int i = 0; i < 4; i++) {
+                tetrominoList.add(currentTetrominoPool.get(i));
+            }
+        } else {
+            // check that how many tetromino need to get from nextTetrominoPool
+            int tetrominoNeed = 4 - currentTetrominoPool.size();
+            tetrominoList.addAll(currentTetrominoPool);
+            for (int i = 0; i < tetrominoNeed; i++) {
+                tetrominoList.add(nextTetrominoPool.get(i));
+            }
         }
         return tetrominoList;
+    }
+
+    /**
+     * Sets a list of tetromino for showing next tetromino.
+     *
+     * @param tetrominoList a list of tetromino for showing next tetromino.
+     */
+    @Override
+    public void setTetrominoList(List<Tetromino> tetrominoList) {
+        nextTetrominoPool = tetrominoList;
     }
 
     /**

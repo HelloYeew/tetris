@@ -5,6 +5,8 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import game.main.math.Vector2D;
 import game.main.random.RandomStrategyEnum;
+import game.main.tetromino.Tetromino;
+import game.main.tetromino.TetrominoType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,7 +50,7 @@ public class MainServer extends JFrame {
      */
     private Connection player2connection;
 
-    public RandomStrategyEnum randomStrategy = RandomStrategyEnum.Normal;
+    public RandomStrategyEnum randomStrategy = RandomStrategyEnum.Traditional;
 
     /**
      * Initialize the server and its GUI.
@@ -79,6 +81,7 @@ public class MainServer extends JFrame {
         server.getKryo().register(ControlDirection.class);
         server.getKryo().register(GameState.class);
         server.getKryo().register(RandomStrategyEnum.class);
+        server.getKryo().register(TetrominoType.class);
         server.addListener(new Listener() {
             @Override
             public void received(Connection connection, Object object) {
@@ -89,6 +92,16 @@ public class MainServer extends JFrame {
                     } else {
                         player1connection.sendTCP(direction);
                         logTextArea.append("Player 2 sent direction " + direction + "\n");
+                    }
+                    // scroll the scroll pane to the bottom
+                    logTextArea.setCaretPosition(logTextArea.getDocument().getLength());
+                } else if (object instanceof TetrominoType tetrominoType) {
+                    if (connection == player1connection) {
+                        player2connection.sendTCP(tetrominoType);
+                        logTextArea.append("Player 1 sent tetromino type " + tetrominoType + "\n");
+                    } else {
+                        player1connection.sendTCP(tetrominoType);
+                        logTextArea.append("Player 2 sent tetromino type " + tetrominoType + "\n");
                     }
                     // scroll the scroll pane to the bottom
                     logTextArea.setCaretPosition(logTextArea.getDocument().getLength());

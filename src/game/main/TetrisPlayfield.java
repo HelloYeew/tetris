@@ -115,7 +115,7 @@ public class TetrisPlayfield extends JPanel {
         currentTetromino.update();
         convertTetrominoToPixel();
         repaint();
-        checkCollision();
+        checkCollision(true);
     }
 
     /**
@@ -127,7 +127,7 @@ public class TetrisPlayfield extends JPanel {
     public void paintTetromino() {
         convertTetrominoToPixel();
         repaint();
-        checkCollision();
+        checkCollision(true);
     }
 
     /**
@@ -135,7 +135,7 @@ public class TetrisPlayfield extends JPanel {
      *
      * If collided, it will create a new tetromino.
      */
-    private Boolean checkCollision() {
+    public Boolean checkCollision(Boolean createNewWhenColliding) {
         for (Vector2D position : currentTetromino.getPositions()) {
             // Check if there's other block below the tetromino that's not itself, unbind the current tetromino
             if (position.y < SIZE.y - 1) {
@@ -151,9 +151,11 @@ public class TetrisPlayfield extends JPanel {
                 }
             }
 
-            // if it's the bottom of the playfield, create a new tetromino
+            // if it's the bottom of the playfield, create a new tetromino if it's collided
             if (position.y == SIZE.y - 1) {
-                createNewTetromino();
+                if (createNewWhenColliding) {
+                    createNewTetromino();
+                }
                 return true;
             }
         }
