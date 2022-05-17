@@ -50,6 +50,10 @@ public class GameLocalClient extends JFrame implements Observer {
      */
     private LocalDebugWindow debugWindow;
 
+    private int player1RowFull = 0;
+
+    private int player2RowFull = 0;
+
     /**
      * Create a new game with necessary components
      */
@@ -167,6 +171,18 @@ public class GameLocalClient extends JFrame implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
+        if (playfieldPlayer1.countFullRow() - player1RowFull > 0) {
+            for (int i = 0; i < playfieldPlayer1.countFullRow() - player1RowFull; i++) {
+                playfieldPlayer2.generatePermanentRow();
+            }
+            player1RowFull = playfieldPlayer1.countFullRow();
+        }
+        if (playfieldPlayer2.countFullRow() - player2RowFull > 0) {
+            for (int i = 0; i < playfieldPlayer2.countFullRow() - player2RowFull; i++) {
+                playfieldPlayer1.generatePermanentRow();
+            }
+            player2RowFull = playfieldPlayer2.countFullRow();
+        }
         playfieldPlayer1.update();
         playfieldPlayer2.update();
         debugWindow.update();

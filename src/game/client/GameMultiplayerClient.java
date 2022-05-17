@@ -68,6 +68,10 @@ public class GameMultiplayerClient extends JFrame implements Observer {
     private Client client;
 
     private RandomStrategyEnum randomStrategy;
+    
+    private int ownPlayfieldFullRow;
+    
+    private int opponentPlayfieldFullRow;
 
     /**
      * Create a new game with necessary components
@@ -234,6 +238,18 @@ public class GameMultiplayerClient extends JFrame implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
+        if (ownPlayfield.countFullRow() - ownPlayfieldFullRow > 0) {
+            for (int i = 0; i < ownPlayfield.countFullRow() - ownPlayfieldFullRow; i++) {
+                opponentPlayfield.generatePermanentRow();
+            }
+            ownPlayfieldFullRow = ownPlayfield.countFullRow();
+        }
+        if (opponentPlayfield.countFullRow() - opponentPlayfieldFullRow > 0) {
+            for (int i = 0; i < opponentPlayfield.countFullRow() - opponentPlayfieldFullRow; i++) {
+                ownPlayfield.generatePermanentRow();
+            }
+            opponentPlayfieldFullRow = opponentPlayfield.countFullRow();
+        }
         ownPlayfield.update();
         opponentPlayfield.update();
         debugWindow.update();
