@@ -345,7 +345,6 @@ public class TetrisPlayfield extends JPanel {
         } else {
             System.out.println("Cannot rotate");
         }
-        currentTetromino.rotate();
         convertTetrominoToPixel();
         repaint();
     }
