@@ -147,8 +147,6 @@ public class MainServer extends JFrame {
                         }
                     }).start();
                 }
-
-                // TODO: Current can play with normal strategy (not shuffle) but we need to implement the shuffle strategy too.
             }
 
             @Override

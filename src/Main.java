@@ -58,8 +58,6 @@ public class Main extends JFrame {
         bottomPanel.add(bottomLabel);
         add(bottomPanel, BorderLayout.SOUTH);
 
-        // TODO: Server status
-
         localGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

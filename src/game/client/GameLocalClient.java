@@ -136,8 +136,6 @@ public class GameLocalClient extends JFrame implements Observer {
                     case KeyEvent.VK_UP -> playfieldPlayer1.rotate();
                 }
                 playfieldPlayer1.isReceivedInput = true;
-            } else {
-                System.out.println("Ignored player 1 input");
             }
 
             if (!playfieldPlayer2.isReceivedInput) {
@@ -147,8 +145,6 @@ public class GameLocalClient extends JFrame implements Observer {
                     case KeyEvent.VK_W -> playfieldPlayer2.rotate();
                 }
                 playfieldPlayer2.isReceivedInput = true;
-            } else {
-                System.out.println("Ignored player 2 input");
             }
 
             if (DEBUG) {
