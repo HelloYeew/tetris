@@ -3,6 +3,7 @@ package game.client;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import game.main.NextTetrominoPanel;
 import game.main.TetrisPlayfield;
 import game.main.math.Vector2D;
 import game.main.strategy.NoneStrategy;
@@ -36,6 +37,16 @@ public class GameMultiplayerClient extends JFrame implements Observer {
      * Opponent's playfield. Mainly broadcast opponent's control from server.
      */
     public TetrisPlayfield opponentPlayfield;
+
+    /**
+     * Current player's next tetromino panel.
+     */
+    public NextTetrominoPanel nextTetrominoPanelOwnPlayfield;
+
+    /**
+     * Opponent's next tetromino panel.
+     */
+    public NextTetrominoPanel nextTetrominoPanelOpponentPlayfield;
 
     /**
      * Size of the playfield in blocks
@@ -106,7 +117,7 @@ public class GameMultiplayerClient extends JFrame implements Observer {
     public GameMultiplayerClient() {
         super("just a tetris with multiplayer");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 700);
+        setSize(800, 550);
         addKeyListener(new PlayerController());
         setFocusable(true);
         setResizable(false);
@@ -248,16 +259,30 @@ public class GameMultiplayerClient extends JFrame implements Observer {
                 JOptionPane.showMessageDialog(this, "Server is full or something is wrong on server. Please check the server condition!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+        nextTetrominoPanelOwnPlayfield = new NextTetrominoPanel();
+        nextTetrominoPanelOpponentPlayfield = new NextTetrominoPanel();
+        ownPlayfield.addNextTetrominoPanel(nextTetrominoPanelOwnPlayfield);
+        opponentPlayfield.addNextTetrominoPanel(nextTetrominoPanelOpponentPlayfield);
         JPanel ownPanel = new JPanel();
         JPanel opponentPanel = new JPanel();
+        JPanel nextTetrominoPanelOwnPanel = new JPanel();
+        JPanel nextTetrominoPanelOpponentPanel = new JPanel();
         ownPanel.setLayout(new BoxLayout(ownPanel, BoxLayout.Y_AXIS));
         opponentPanel.setLayout(new BoxLayout(opponentPanel, BoxLayout.Y_AXIS));
         ownPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         opponentPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         ownPanel.add(ownPlayfield);
         opponentPanel.add(opponentPlayfield);
+        nextTetrominoPanelOwnPanel.add(new JLabel("Next"));
+        nextTetrominoPanelOwnPanel.add(nextTetrominoPanelOwnPlayfield);
+        nextTetrominoPanelOpponentPanel.add(new JLabel("Next"));
+        nextTetrominoPanelOpponentPanel.add(nextTetrominoPanelOpponentPlayfield);
+        nextTetrominoPanelOwnPanel.setLayout(new BoxLayout(nextTetrominoPanelOwnPanel, BoxLayout.Y_AXIS));
+        nextTetrominoPanelOpponentPanel.setLayout(new BoxLayout(nextTetrominoPanelOpponentPanel, BoxLayout.Y_AXIS));
+        mainPanel.add(nextTetrominoPanelOwnPanel);
         mainPanel.add(ownPanel);
         mainPanel.add(opponentPanel);
+        mainPanel.add(nextTetrominoPanelOpponentPanel);
         add(mainPanel, BorderLayout.CENTER);
 
         if (DEBUG) {

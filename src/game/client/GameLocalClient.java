@@ -1,5 +1,6 @@
 package game.client;
 
+import game.main.NextTetrominoPanel;
 import game.main.TetrisPlayfield;
 import game.main.math.Vector2D;
 import game.main.strategy.TraditionalRandomStrategy;
@@ -24,6 +25,16 @@ public class GameLocalClient extends JFrame implements Observer {
      * Player 2's playfield
      */
     public TetrisPlayfield playfieldPlayer2;
+
+    /**
+     * Player 1's next tetromino panel
+     */
+    public NextTetrominoPanel nextTetrominoPanelPlayer1;
+
+    /**
+     * Player 2's next tetromino panel
+     */
+    public NextTetrominoPanel nextTetrominoPanelPlayer2;
 
     /**
      * Size of the playfield in blocks
@@ -51,22 +62,12 @@ public class GameLocalClient extends JFrame implements Observer {
     private LocalDebugWindow debugWindow;
 
     /**
-     * The number of the current full row of player 1
-     */
-    private int player1RowFull = 0;
-
-    /**
-     * The number of the current full row of player 2
-     */
-    private int player2RowFull = 0;
-
-    /**
      * Create a new game with necessary components
      */
     public GameLocalClient() {
         super("just a tetris");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 600);
+        setSize(800, 550);
         addKeyListener(new PlayerController());
         setFocusable(true);
         setResizable(false);
@@ -99,17 +100,31 @@ public class GameLocalClient extends JFrame implements Observer {
         // Add mainPanel and its components at the center of the frame
         JPanel mainPanel = new JPanel();
         playfieldPlayer1 = new TetrisPlayfield(PLAYFIELD_SIZE, new TraditionalRandomStrategy());
+        nextTetrominoPanelPlayer1 = new NextTetrominoPanel();
+        playfieldPlayer1.addNextTetrominoPanel(nextTetrominoPanelPlayer1);
         playfieldPlayer2 = new TetrisPlayfield(PLAYFIELD_SIZE, new TraditionalRandomStrategy());
+        nextTetrominoPanelPlayer2 = new NextTetrominoPanel();
+        playfieldPlayer2.addNextTetrominoPanel(nextTetrominoPanelPlayer2);
+        JPanel nextTetrominoPlayer1Panel = new JPanel();
         JPanel player1Panel = new JPanel();
         JPanel player2Panel = new JPanel();
+        JPanel nextTetrominoPlayer2Panel = new JPanel();
         player1Panel.setLayout(new BoxLayout(player1Panel, BoxLayout.Y_AXIS));
         player2Panel.setLayout(new BoxLayout(player2Panel, BoxLayout.Y_AXIS));
         player1Panel.setAlignmentX(Component.CENTER_ALIGNMENT);
         player2Panel.setAlignmentX(Component.CENTER_ALIGNMENT);
         player1Panel.add(playfieldPlayer1);
         player2Panel.add(playfieldPlayer2);
+        nextTetrominoPlayer1Panel.add(new JLabel("Next"));
+        nextTetrominoPlayer1Panel.add(nextTetrominoPanelPlayer1);
+        nextTetrominoPlayer2Panel.add(new JLabel("Next"));
+        nextTetrominoPlayer2Panel.add(nextTetrominoPanelPlayer2);
+        nextTetrominoPlayer1Panel.setLayout(new BoxLayout(nextTetrominoPlayer1Panel, BoxLayout.Y_AXIS));
+        nextTetrominoPlayer2Panel.setLayout(new BoxLayout(nextTetrominoPlayer2Panel, BoxLayout.Y_AXIS));
+        mainPanel.add(nextTetrominoPlayer1Panel);
         mainPanel.add(player1Panel);
         mainPanel.add(player2Panel);
+        mainPanel.add(nextTetrominoPlayer2Panel);
         add(mainPanel, BorderLayout.CENTER);
 
         // Add GameObservable

@@ -55,6 +55,11 @@ public class TetrisPlayfield extends JPanel {
     public TetrominoRandomStrategy randomStrategy;
 
     /**
+     * The next tetromino panel that's bind to the playfield
+     */
+    public NextTetrominoPanel nextTetrominoPanel;
+
+    /**
      * Initialize the playfield with the given size.
      * @param size the size of the playfield in Vector2D
      */
@@ -66,6 +71,14 @@ public class TetrisPlayfield extends JPanel {
         blocks = new Color[size.x][size.y];
         createNewTetromino();
         convertTetrominoToPixel();
+    }
+
+    /**
+     * Bind a new next tetromino panel to the playfield.
+     * @param nextTetrominoPanel the next tetromino panel to bind
+     */
+    public void addNextTetrominoPanel(NextTetrominoPanel nextTetrominoPanel) {
+        this.nextTetrominoPanel = nextTetrominoPanel;
     }
 
     /**
@@ -98,7 +111,7 @@ public class TetrisPlayfield extends JPanel {
     }
 
     /**
-     * Paint all the current tetromino posuitions to the playfield.
+     * Paint all the current tetromino positions to the playfield.
      */
     private void convertTetrominoToPixel() {
         cleanCurrentTetrominoPositions();
@@ -116,22 +129,18 @@ public class TetrisPlayfield extends JPanel {
      * Normally this method is called by the main game loop.
      */
     public void update() {
+        if (nextTetrominoPanel != null) {
+            try {
+                nextTetrominoPanel.setAndUpdateTetromino(randomStrategy.getTetrominoList().get(0));
+            } catch (NullPointerException e) {
+                // This is in case on multiplayer mode that's no information on this
+                nextTetrominoPanel.update();
+            }
+        }
         // Remove the old positions of the tetromino before update
         cleanCurrentTetrominoPositions();
         // Update the tetromino
         currentTetromino.update();
-        convertTetrominoToPixel();
-        repaint();
-        checkCollision(true);
-    }
-
-    /**
-     * Update the playfield without call the update method of the tetromino.
-     * <br>
-     * This method is made to fix the playfield bug that the tetromino that has a same shape has the same memory address
-     * and when call normal update method, the tetromino will be update twice.
-     */
-    public void paintTetromino() {
         convertTetrominoToPixel();
         repaint();
         checkCollision(true);
