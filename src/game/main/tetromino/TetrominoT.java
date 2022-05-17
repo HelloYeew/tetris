@@ -3,6 +3,8 @@ package game.main.tetromino;
 import game.main.math.Vector2D;
 import game.main.tetromino.state.TetrominoState;
 import game.main.tetromino.state.TetrominoTStateOne;
+import game.main.tetromino.state.TetrominoTStateThree;
+import game.main.tetromino.state.TetrominoTStateTwo;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -24,10 +26,22 @@ public class TetrominoT implements Tetromino {
     @Override
     public void generateBlock() {
         positions = new ArrayList<>();
-        positions.add(new Vector2D(origin.x, origin.y));
-        positions.add(new Vector2D(origin.x + 1, origin.y));
-        positions.add(new Vector2D(origin.x + 2, origin.y));
-        positions.add(new Vector2D(origin.x + 1, origin.y - 1));
+        if (state instanceof TetrominoTStateOne) {
+            positions.add(new Vector2D(origin.x, origin.y));
+            positions.add(new Vector2D(origin.x + 1, origin.y));
+            positions.add(new Vector2D(origin.x + 2, origin.y));
+            positions.add(new Vector2D(origin.x + 1, origin.y - 1));
+        } else if (state instanceof TetrominoTStateTwo) {
+            positions.add(new Vector2D(origin.x + 1, origin.y));
+            positions.add(new Vector2D(origin.x + 2, origin.y));
+            positions.add(new Vector2D(origin.x + 1, origin.y - 1));
+            positions.add(new Vector2D(origin.x + 1, origin.y + 1));
+        } else if (state instanceof TetrominoTStateThree) {
+            positions.add(new Vector2D(origin.x, origin.y));
+            positions.add(new Vector2D(origin.x + 1, origin.y));
+            positions.add(new Vector2D(origin.x + 2, origin.y));
+            positions.add(new Vector2D(origin.x + 1, origin.y + 1));
+        }
     }
 
     /**
