@@ -63,6 +63,8 @@ public class GameLocalClient extends JFrame implements Observer {
         setSize(500, 700);
         addKeyListener(new PlayerController());
         setFocusable(true);
+        setResizable(false);
+        setAlwaysOnTop(true);
 
         // Add topPanel include the debug window button and status text field
         JPanel topPanel = new JPanel();

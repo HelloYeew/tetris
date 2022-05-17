@@ -82,6 +82,8 @@ public class GameMultiplayerClient extends JFrame implements Observer {
         setSize(500, 700);
         addKeyListener(new PlayerController());
         setFocusable(true);
+        setResizable(false);
+        setAlwaysOnTop(true);
 
         // Setup server
         client = new Client();
