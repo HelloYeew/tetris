@@ -15,7 +15,6 @@ import java.util.List;
 public class WeLoveOStrategy implements TetrominoRandomStrategy {
     /**
      * Returns a next tetromino for insert in the board.
-     *
      * @return a next tetromino for insert in the board.
      */
     @Override

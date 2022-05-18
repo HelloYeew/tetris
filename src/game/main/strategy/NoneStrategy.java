@@ -14,7 +14,6 @@ public class NoneStrategy implements TetrominoRandomStrategy {
 
     /**
      * Returns a next tetromino for insert in the board.
-     *
      * @return a next tetromino for insert in the board.
      */
     @Override
@@ -29,7 +28,6 @@ public class NoneStrategy implements TetrominoRandomStrategy {
 
     /**
      * Returns a list of next tetromino for showing next tetromino.
-     *
      * @return a list of next tetromino for showing next tetromino.
      */
     @Override
