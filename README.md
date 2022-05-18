@@ -2,8 +2,6 @@
 
 just another tetris that can play with your friends but you don't have any friends so you need to pretend that you have friends.
 
-This project is cover under [DON'T BE A DICK PUBLIC LICENSE WITH EXTRA LICENSE FOR SSD FINAL PROJECT](LICENSE.md) please read it before you start cloning and copy this to your own final project.
-
 ## Special requirements
 
 - This project needs latest version of Java due to the lambda expression that's use a lot on codebase, and it's not supported by older version of Java.
