@@ -21,3 +21,10 @@ This project is cover under [DON'T BE A DICK PUBLIC LICENSE WITH EXTRA LICENSE F
     - Generate the permanent row on other playfield (available only on local client) - `O` and `P` key
     - Quit - `ESC` key
 
+## JAR file
+
+I prepare a JAR file on the complete project that you can download and open it on your computer. The file include :
+- `local_client.jar` : The local client that 2 player play with same keyboard.
+- `server.jar` : The server that you can play with your friend.
+- `multiplayer_client.jar` : The multiplayer client that you can play with your friend via server.
+- `main_screen.jar` : The main screen that has a menu to choose the mode.
