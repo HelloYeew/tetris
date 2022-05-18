@@ -12,6 +12,7 @@ public class TetrominoSStateTwo implements TetrominoState, TetrominoSState {
      */
     @Override
     public void rotate(Tetromino tetromino) {
+        tetromino.setState(new TetrominoSStateOne());
         tetromino.generateBlock();
     }
 }
